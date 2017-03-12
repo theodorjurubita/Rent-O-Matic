@@ -20,6 +20,9 @@ namespace Rent_O_Matic.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        public DbSet<Car> Cars { get; set; }
+        public DbSet<Store> Stores { get; set; }
+        public DbSet<Customer> Customers { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

@@ -1,8 +1,32 @@
-﻿@model Rent_O_Matic.Models.Car
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Rent_O_Matic.Models.Car>
+
 @{
     ViewBag.Title = "Random";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>@Model.Brand</h2>
+<table>
+    <thead>
+    <tr>
+        <th>
+            Brand
+        </th>
+        <th>
+            Model
+        </th>
+
+    </tr>
+    
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@car.Brand</td>
+                <td>@car.Model</td>
+            </tr>    
+        }
+    </tbody>
+</table>
 
