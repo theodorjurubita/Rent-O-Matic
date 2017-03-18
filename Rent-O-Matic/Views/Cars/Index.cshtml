@@ -1,0 +1,33 @@
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Rent_O_Matic.Models.Car>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Current available cars</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Price</th>
+        <th>Store Location</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var car in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(car.Brand, "Edit", "Cars", new { id=car.Id}, null)</td>
+                <td>@car.Model</td>
+                <td>@car.Year</td>
+                <td>@car.Price</td>
+                <td>@car.Store.City</td>
+            </tr>
+        }
+    </tbody>
+</table>
+

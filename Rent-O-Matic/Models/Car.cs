@@ -16,6 +16,7 @@ namespace Rent_O_Matic.Models
 
         public int Year { get; set; }
 
+        [Display(Name = "Price per day")]
         public float Price { get; set; }
 
         public Store Store { get; set; }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -34,7 +35,7 @@ namespace Rent_O_Matic.Controllers
         public ActionResult New()
         {
             var stores = _context.Stores.ToList();
-            var viewModel = new NewCarViewModel()
+            var viewModel = new CarViewModel()
             {
                 Stores = stores
             };
@@ -54,6 +55,25 @@ namespace Rent_O_Matic.Controllers
         public ActionResult ByYear(int year)
         {
             return Content(year.ToString());
+        }
+
+        public ActionResult Index()
+        {
+            var cars = _context.Cars.Include(c => c.Store).ToList();
+            return View(cars);
+        }
+        public ActionResult Edit(int id)
+        {
+
+            var car = _context.Cars.SingleOrDefault(c => c.Id == id);
+            if(car==null)
+                return HttpNotFound();
+            var carViewModel = new CarViewModel
+            {
+                Car = car,
+                Stores = _context.Stores.ToList()
+            };
+            return View("New",carViewModel);
         }
     }
 }

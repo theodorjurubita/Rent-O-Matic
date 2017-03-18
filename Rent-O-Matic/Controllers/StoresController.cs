@@ -17,6 +17,12 @@ namespace Rent_O_Matic.Controllers
             _context=new ApplicationDbContext();
             
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            _context.Dispose();
+        }
+
         // GET: Stores
         public ActionResult Index()
         {

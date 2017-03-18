@@ -1,0 +1,70 @@
+﻿@model Rent_O_Matic.ViewModels.CustomerViewModel
+@{
+    ViewBag.Title = "New";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<script language="javascript" type="text/javascript">
+    function GetCars(_storeId) {
+        var url = "/Customers/GetCarsByStoreId/";
+
+        $.ajax({
+            url: url,
+            data: { storeId: _storeId },
+            cache: false,
+            type: "POST",
+            success: function (data) {
+                var markup = "<option value='0'>Select Car</option>";
+                for (var x = 0; x < data.length; x++) {
+                    markup += "<option value=" + data[x].Value + ">" + data[x].Text + "</option>";
+                }
+                $("#ddlCars").html(markup).show();
+            },
+            error: function (reponse) {
+                alert("error : " + reponse);
+            }
+        });
+
+
+    }
+</script>
+
+<h2>New Customer</h2>
+
+@using (Html.BeginForm("Create", "Customers", new { id = "CustomerForm" }))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Name)
+        @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.Nationality)
+        @Html.TextBoxFor(m => m.Customer.Nationality, new { @class = "form-control" })
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Customer.YearsOld)
+        @Html.TextBoxFor(m => m.Customer.YearsOld, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.DrivingLiscense)
+        @Html.TextBoxFor(m => m.Customer.DrivingLiscense, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.StoreId)
+        @Html.DropDownListFor(m => m.Customer.StoreId, new SelectList(Model.Stores, "Id", "City"), "Select Store", new { @class = "form-control", id = "storeddl", @onchange = "javascript:GetCars(this.value);" })
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Customer.CarId)
+        <select type="submit" id="ddlCars" name="Customer.CarId" class="form-control">
+            <option value='0'>Select a store first!</option>
+        </select>
+    </div>
+
+
+    @Html.HiddenFor(m => m.Customer.Id)
+
+
+    <button type="submit" class="btn btn-primary " id="submitBTN">
+        Save
+    </button>
+}
