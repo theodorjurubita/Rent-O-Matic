@@ -1,0 +1,40 @@
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Customer>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Customers</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+    
+    <tr>
+        <th>Name</th>
+        <th>Nationality</th>
+        <th>Years old</th>
+        <th>Car</th>
+        <th>Store Location</th>
+
+    </tr>
+
+    </thead>
+    
+    <tbody>
+    @foreach (var customer in Model)
+    {
+        <tr>
+            <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
+            <td>@customer.Nationality</td>
+            <td>@customer.YearsOld</td>
+            <td>@customer.Car.Model</td>
+            <td>@customer.Store.City </td>
+        </tr>
+    }
+
+
+    </tbody>
+
+</table>
+

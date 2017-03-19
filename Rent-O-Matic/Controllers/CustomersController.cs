@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
@@ -35,6 +37,7 @@ namespace Rent_O_Matic.Controllers
             return View(customer);
         }
 
+        [HttpPost]
         public ActionResult Create(Customer customer)
         {
             _context.Customers.Add(customer);
@@ -49,14 +52,38 @@ namespace Rent_O_Matic.Controllers
         {
             IEnumerable<Car> cars = new List<Car>();
             cars = _context.Cars.Where(c => c.StoreId == storeId).ToList();
-            SelectList carsList = new SelectList(cars,"Id","Model",0);
+            SelectList carsList = new SelectList(cars, "Id", "Model", 0);
             return Json(carsList);
         }
 
         // GET: Customers
         public ActionResult Index()
         {
-            return View();
+            var customers = _context.Customers.Include(c => c.Car).Include(c => c.Store).ToList();
+            return View(customers);
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
+            if (customer == null)
+                return HttpNotFound();
+            CustomerViewModel customerViewModel = new CustomerViewModel()
+            {
+                Customer = customer,
+                Stores = _context.Stores.ToList()
+            };
+
+            return View("New", customerViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult GetCarBrandById(int id)
+        {
+            IEnumerable<Car> car = new List<Car>();
+            car = _context.Cars.Where(c => c.Id == id);
+            SelectList carzz = new SelectList(car, "Id", "Model", 0);
+            return Json(carzz);
         }
     }
 }

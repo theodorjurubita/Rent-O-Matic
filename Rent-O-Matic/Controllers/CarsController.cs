@@ -57,6 +57,8 @@ namespace Rent_O_Matic.Controllers
             return Content(year.ToString());
         }
 
+
+        //GET: Cars
         public ActionResult Index()
         {
             var cars = _context.Cars.Include(c => c.Store).ToList();
@@ -75,5 +77,7 @@ namespace Rent_O_Matic.Controllers
             };
             return View("New",carViewModel);
         }
+
+        
     }
 }

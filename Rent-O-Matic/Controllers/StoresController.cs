@@ -26,7 +26,8 @@ namespace Rent_O_Matic.Controllers
         // GET: Stores
         public ActionResult Index()
         {
-            return View();
+            var stores = _context.Stores.ToList();
+            return View(stores);
         }
 
         public ActionResult New()
@@ -42,6 +43,15 @@ namespace Rent_O_Matic.Controllers
             _context.Stores.Add(store);
             _context.SaveChanges();
             return RedirectToAction("New", "Stores");
+        }
+
+        public ActionResult Edit(int id)
+        {
+            var store = _context.Stores.SingleOrDefault(c => c.Id == id);
+            if (store == null)
+                return HttpNotFound();
+
+            return View("New", store);
         }
     }
 }

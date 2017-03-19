@@ -1,0 +1,28 @@
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Rent_O_Matic.Models.Store>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Available store locations</h2>
+
+<table class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var store in Model)
+        {
+            <tr>
+                <td>@Html.ActionLink(store.City, "Edit", "Stores", new { id = store.Id }, null)</td>
+                <td>@store.Country</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
