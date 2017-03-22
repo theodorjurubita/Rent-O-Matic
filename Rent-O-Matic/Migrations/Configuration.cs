@@ -5,14 +5,14 @@ namespace Rent_O_Matic.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<Rent_O_Matic.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<Rent_O_Matic.ViewModels.ApplicationDbContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
         }
 
-        protected override void Seed(Rent_O_Matic.Models.ApplicationDbContext context)
+        protected override void Seed(Rent_O_Matic.ViewModels.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
 

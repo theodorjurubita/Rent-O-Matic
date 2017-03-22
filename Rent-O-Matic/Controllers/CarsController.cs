@@ -4,7 +4,6 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers

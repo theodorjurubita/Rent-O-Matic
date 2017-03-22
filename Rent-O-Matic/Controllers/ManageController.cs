@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
-using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
 {

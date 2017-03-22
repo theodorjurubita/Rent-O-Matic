@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 
-namespace Rent_O_Matic.Models
+namespace Rent_O_Matic.ViewModels
 {
     public class IndexViewModel
     {

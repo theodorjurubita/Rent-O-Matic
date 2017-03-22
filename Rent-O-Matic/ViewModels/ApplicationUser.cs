@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 
-namespace Rent_O_Matic.Models
+namespace Rent_O_Matic.ViewModels
 {
     public class ApplicationUser : IdentityUser
     {

@@ -5,7 +5,7 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.Google;
 using Owin;
-using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic
 {
