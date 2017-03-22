@@ -32,6 +32,7 @@ namespace Rent_O_Matic.Controllers
             return View(cars);
         }
 
+        [Authorize]
         public ActionResult New()
         {
             var stores = _context.Stores.ToList();
@@ -43,6 +44,7 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public ActionResult Create(Car car)
         {
             _context.Cars.Add(car);
