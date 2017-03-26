@@ -1,5 +1,6 @@
 ﻿using System.Data.Entity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using Rent_O_Matic.Models;
 
 namespace Rent_O_Matic.ViewModels
 {

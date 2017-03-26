@@ -1,5 +1,5 @@
-﻿@using Rent_O_Matic.ViewModels
-@model IEnumerable<Rent_O_Matic.ViewModels.Store>
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Store>
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -7,22 +7,44 @@
 
 <h2>Available store locations</h2>
 
-<table class="table table-bordered table-hover">
+@Html.ActionLink("New", "New", "Stores", new { @class = "btn btn-primary" })
+
+<br />
+<br />
+
+<table id="stores" class="table table-bordered table-hover">
     <thead>
         <tr>
             <th>City</th>
             <th>Country</th>
         </tr>
     </thead>
-    <tbody>
-        @foreach (var store in Model)
-        {
-            <tr>
-                <td>@Html.ActionLink(store.City, "Edit", "Stores", new { id = store.Id }, null)</td>
-                <td>@store.Country</td>
-            </tr>
-        }
-    </tbody>
+    <tbody></tbody>
 </table>
 
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#stores").DataTable({
+                ajax: {
+                    url: "/api/stores",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "city",
+                        render: function (data, type, store) {
+                            return "<a href='/stores/edit/" + store.id + "'>" + store.city + "</a>";
+                        }
+                    },
+                    {
+                        data: "country"
+                    }
+                ]
+            });
+        });
+    </script>
+
+}
 

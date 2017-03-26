@@ -22,3 +22,62 @@ select,
 textarea {
     max-width: 280px;
 }
+
+/*Here we override conventions of bootstrap and ASP.NET*/
+.navbar-inverse {
+    background-color: #ff7300;
+    border-color: #ff7300;
+}
+.navbar-inverse .navbar-brand {
+    color: #fffff0;
+}
+.navbar-inverse .navbar-nav > li > a {
+    color: #fffff0;
+}
+
+body {
+    font-size: 17px;
+}
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.h1,
+.h2,
+.h3,
+.h4,
+.h5,
+.h6 {
+  font-family: Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-control {
+    font-size: 16px;
+    padding: 3px 15px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+}
+.form-control:focus {
+    border-color: rgba(12, 106, 181, 0.79);
+    box-shadow: none;
+    -webkit-box-shadow: none;
+}
+
+.btn {
+    font-size: 16px;
+    padding: 7px 20px;
+    -ms-border-radius: 10px;
+    border-radius: 10px;
+}
+.btn-link {
+    color: #fb1204;
+}

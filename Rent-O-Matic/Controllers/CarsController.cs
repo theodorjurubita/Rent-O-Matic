@@ -4,6 +4,8 @@ using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using AutoMapper;
+using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
@@ -27,7 +29,7 @@ namespace Rent_O_Matic.Controllers
         public ActionResult Random()
         {
             var cars = _context.Cars.ToList();
-            
+
             return View(cars);
         }
 
@@ -44,12 +46,22 @@ namespace Rent_O_Matic.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Create(Car car)
+        public ActionResult Save(Car car)
         {
-            _context.Cars.Add(car);
+            if (car.Id == 0)
+                _context.Cars.Add(car);
+            else
+            {
+                var carInDb = _context.Cars.Single(c => c.Id == car.Id);
+                carInDb.Model = car.Model;
+                carInDb.Brand = car.Brand;
+                carInDb.StoreId = car.StoreId;
+                carInDb.Price = car.Price;
+                carInDb.Year = car.Year;
+            }
             _context.SaveChanges();
-            
-            return RedirectToAction("New","Cars");
+
+            return RedirectToAction("Index", "Cars");
         }
 
         [Route("cars/years/{year}")]
@@ -69,16 +81,16 @@ namespace Rent_O_Matic.Controllers
         {
 
             var car = _context.Cars.SingleOrDefault(c => c.Id == id);
-            if(car==null)
+            if (car == null)
                 return HttpNotFound();
             var carViewModel = new CarViewModel
             {
                 Car = car,
                 Stores = _context.Stores.ToList()
             };
-            return View("New",carViewModel);
+            return View("New", carViewModel);
         }
 
-        
+
     }
 }

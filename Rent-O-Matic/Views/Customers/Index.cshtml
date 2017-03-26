@@ -1,4 +1,4 @@
-﻿@using Rent_O_Matic.ViewModels
+﻿    @using Rent_O_Matic.Models
 @model IEnumerable<Customer>
 @{
     ViewBag.Title = "Index";
@@ -7,34 +7,97 @@
 
 <h2>Customers</h2>
 
-<table class="table table-bordered table-hover">
+@Html.ActionLink("New", "New", "Customers", new { @class = "btn btn-primary" })
+<br/>
+<br/>
+
+<table id="customers" class="table table-bordered table-hover">
     <thead>
-    
-    <tr>
-        <th>Name</th>
-        <th>Nationality</th>
-        <th>Years old</th>
-        <th>Car</th>
-        <th>Store Location</th>
 
-    </tr>
-
-    </thead>
-    
-    <tbody>
-    @foreach (var customer in Model)
-    {
         <tr>
-            <td>@Html.ActionLink(customer.Name, "Edit", "Customers", new { id = customer.Id }, null)</td>
-            <td>@customer.Nationality</td>
-            <td>@customer.YearsOld</td>
-            <td>@customer.Car.Model</td>
-            <td>@customer.Store.City </td>
+            <th>Name</th>
+            <th>Nationality</th>
+            <th>Years old</th>
+            <th>Car</th>
+            <th>Store Location</th>
+            <th>Delete</th>
         </tr>
-    }
+    </thead>
 
-
+    <tbody>
     </tbody>
 
 </table>
 
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+
+            var customersTable = $("#customers").DataTable({
+                ajax: {
+                    url: "/api/customers",
+                    dataSrc: ""
+
+                },
+                columns: [
+                    {
+                        data: "name",
+                        render: function (data, type, customer) {
+                            return "<a href='/customers/edit/" + customer.id + "'>" + customer.name + "</a>";
+                        }
+                    },
+                    {
+                        data: "nationality",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "yearsOld",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, customer) {
+                            return "<td>" + customer.car.brand + " " + customer.car.model + "</td>";
+                        }
+
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, customer) {
+                            return "<td>" + customer.store.city + ", " + customer.store.country + "</td>"
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data,type,customer) {
+                            return "<button class='btn-link js-delete' data-customer-id=" + customer.id + ">Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#customers").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("Are you sure you want to delete this customer?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/customers/" + button.attr("data-customer-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        customersTable.row(button.parents("tr")).remove().draw();
+                                    }
+                                });
+                            }
+                        });
+                });
+        });
+    </script>
+}

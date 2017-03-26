@@ -6,6 +6,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
+using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
@@ -37,12 +38,23 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(Customer customer)
+        public ActionResult Save(Customer customer)
         {
-            _context.Customers.Add(customer);
+            if (customer.Id == 0)
+                _context.Customers.Add(customer);
+            else
+            {
+                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+                customerInDb.Name = customer.Name;
+                customerInDb.Nationality = customer.Nationality;
+                customerInDb.DrivingLiscense = customer.DrivingLiscense;
+                customerInDb.YearsOld = customer.YearsOld;
+                customerInDb.CarId = customer.CarId;
+                customerInDb.StoreId = customer.StoreId;
+            }
             _context.SaveChanges();
 
-            return RedirectToAction("New", "Customers");
+            return RedirectToAction("Index", "Customers");
         }
 
 
@@ -58,8 +70,7 @@ namespace Rent_O_Matic.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-            var customers = _context.Customers.Include(c => c.Car).Include(c => c.Store).ToList();
-            return View(customers);
+            return View();
         }
 
         public ActionResult Edit(int id)
@@ -67,6 +78,7 @@ namespace Rent_O_Matic.Controllers
             var customer = _context.Customers.SingleOrDefault(c => c.Id == id);
             if (customer == null)
                 return HttpNotFound();
+
             CustomerViewModel customerViewModel = new CustomerViewModel()
             {
                 Customer = customer,

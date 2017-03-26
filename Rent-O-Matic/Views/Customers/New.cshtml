@@ -15,7 +15,7 @@ else
     <h2>Edit Customer</h2>
 }
 
-@using (Html.BeginForm("Create", "Customers", new { id = "CustomerForm" }))
+@using (Html.BeginForm("Save", "Customers", new { id = "CustomerForm" }))
 {
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
@@ -70,13 +70,13 @@ else
         <script language="javascript" type="text/javascript">
 
             if ($("#helperDiv").attr("data-car-id") == null) {
-                $.holdReady(true)
+                $.holdReady(true);
             }
             $(document).ready(function () {
-                var url = "/Customers/GetCarBrandById/";
+                
                 if ($("#customerName").text != null) {
                     $.ajax({
-                        url: url,
+                        url: "/Customers/GetCarBrandById",
                         data: { id: $("#helperDiv").attr("data-car-id") },
                         cache: false,
                         type: "POST",
@@ -97,10 +97,9 @@ else
 
 
             function GetCars(_storeId) {
-                var url = "/Customers/GetCarsByStoreId/";
-
+                
                 $.ajax({
-                    url: url,
+                    url: "/Customers/GetCarsByStoreId/",
                     data: { storeId: _storeId },
                     cache: false,
                     type: "POST",

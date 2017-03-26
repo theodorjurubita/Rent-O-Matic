@@ -4,9 +4,17 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>New Car</h2>
+@if (Model.Car == null)
+{
+    <h2>New Car</h2>
+}
+else
+{
+    <h2>Edit Car</h2>
+}
 
-@using (Html.BeginForm("Create", "Cars"))
+
+@using (Html.BeginForm("Save", "Cars"))
 {
     <div class="form-group">
         @Html.LabelFor(m=>m.Car.Brand)
@@ -35,5 +43,6 @@
     <button type="submit" class="btn btn-primary">
         Save
     </button>
+
 }
 

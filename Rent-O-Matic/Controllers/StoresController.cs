@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
@@ -32,17 +33,24 @@ namespace Rent_O_Matic.Controllers
 
         public ActionResult New()
         {
-            var store=new Store();
+            var storeViewModel=new StoreViewModel();
 
-            return View(store);
+            return View(storeViewModel);
         }
 
         [HttpPost]
-        public ActionResult Create(Store store)
+        public ActionResult Save(Store store)
         {
-            _context.Stores.Add(store);
+            if (store.Id == 0)
+                _context.Stores.Add(store);
+            else
+            {
+                var storeInDb = _context.Stores.Single(c => c.Id == store.Id);
+                storeInDb.City = store.City;
+                storeInDb.Country = store.Country;
+            }
             _context.SaveChanges();
-            return RedirectToAction("New", "Stores");
+            return RedirectToAction("Index", "Stores");
         }
 
         public ActionResult Edit(int id)
@@ -50,8 +58,12 @@ namespace Rent_O_Matic.Controllers
             var store = _context.Stores.SingleOrDefault(c => c.Id == id);
             if (store == null)
                 return HttpNotFound();
+            var storeViewModel = new StoreViewModel()
+            {
+                Store = store
+            };
 
-            return View("New", store);
+            return View("New", storeViewModel);
         }
     }
 }
