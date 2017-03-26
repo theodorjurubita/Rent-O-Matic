@@ -268,6 +268,14 @@
     <Compile Include="Migrations\201703221746468_AddNameToApplicationUser.Designer.cs">
       <DependentUpon>201703221746468_AddNameToApplicationUser.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703261025499_AddRequiredAttributesToModels.cs" />
+    <Compile Include="Migrations\201703261025499_AddRequiredAttributesToModels.Designer.cs">
+      <DependentUpon>201703261025499_AddRequiredAttributesToModels.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703261031147_SmallChange.cs" />
+    <Compile Include="Migrations\201703261031147_SmallChange.Designer.cs">
+      <DependentUpon>201703261031147_SmallChange.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Car.cs" />
@@ -574,6 +582,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703221746468_AddNameToApplicationUser.resx">
       <DependentUpon>201703221746468_AddNameToApplicationUser.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703261025499_AddRequiredAttributesToModels.resx">
+      <DependentUpon>201703261025499_AddRequiredAttributesToModels.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703261031147_SmallChange.resx">
+      <DependentUpon>201703261031147_SmallChange.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

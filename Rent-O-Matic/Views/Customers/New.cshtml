@@ -20,22 +20,27 @@ else
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Name)
         @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control", id = "customerName" })
+        @Html.ValidationMessageFor(m => m.Customer.Name)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.Nationality)
         @Html.TextBoxFor(m => m.Customer.Nationality, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.Nationality)
     </div>
     <div>
         @Html.LabelFor(m => m.Customer.YearsOld)
         @Html.TextBoxFor(m => m.Customer.YearsOld, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.YearsOld)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.DrivingLiscense)
         @Html.TextBoxFor(m => m.Customer.DrivingLiscense, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Customer.DrivingLiscense)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Customer.StoreId)
         @Html.DropDownListFor(m => m.Customer.StoreId, new SelectList(Model.Stores, "Id", "City"), "Select Store", new { @class = "form-control", id = "storeddl", @onchange = "javascript:GetCars(this.value);" })
+        @Html.ValidationMessageFor(m => m.Customer.StoreId)
     </div>
 
     <div class="form-group">
@@ -47,9 +52,10 @@ else
             }
             else
             {
-                <option value='0'>Please Wait</option>
+                <option value='0'>Select a store first!</option>
             }
         </select>
+        @Html.ValidationMessageFor(m => m.Customer.CarId)
     </div>
 
     @Html.HiddenFor(m => m.Customer.Id)
@@ -73,7 +79,7 @@ else
                 $.holdReady(true);
             }
             $(document).ready(function () {
-                
+
                 if ($("#customerName").text != null) {
                     $.ajax({
                         url: "/Customers/GetCarBrandById",
@@ -97,7 +103,7 @@ else
 
 
             function GetCars(_storeId) {
-                
+
                 $.ajax({
                     url: "/Customers/GetCarsByStoreId/",
                     data: { storeId: _storeId },

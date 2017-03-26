@@ -39,15 +39,18 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Store store)
+        public ActionResult Save(StoreViewModel storeViewModel)
         {
-            if (store.Id == 0)
-                _context.Stores.Add(store);
+            
+            if (!ModelState.IsValid)
+                return View("New", storeViewModel);
+            if (storeViewModel.Store.Id == 0)
+                _context.Stores.Add(storeViewModel.Store);
             else
             {
-                var storeInDb = _context.Stores.Single(c => c.Id == store.Id);
-                storeInDb.City = store.City;
-                storeInDb.Country = store.Country;
+                var storeInDb = _context.Stores.Single(c => c.Id == storeViewModel.Store.Id);
+                storeInDb.City = storeViewModel.Store.City;
+                storeInDb.Country = storeViewModel.Store.Country;
             }
             _context.SaveChanges();
             return RedirectToAction("Index", "Stores");

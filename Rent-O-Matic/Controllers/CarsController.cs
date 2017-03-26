@@ -46,18 +46,22 @@ namespace Rent_O_Matic.Controllers
 
         [HttpPost]
         [Authorize]
-        public ActionResult Save(Car car)
+        public ActionResult Save(CarViewModel carViewModel)
         {
-            if (car.Id == 0)
-                _context.Cars.Add(car);
+            var stores = _context.Stores.ToList();
+            carViewModel.Stores = stores;
+            if (!ModelState.IsValid)
+                return View("New", carViewModel);
+            if (carViewModel.Car.Id == 0)
+                _context.Cars.Add(carViewModel.Car);
             else
             {
-                var carInDb = _context.Cars.Single(c => c.Id == car.Id);
-                carInDb.Model = car.Model;
-                carInDb.Brand = car.Brand;
-                carInDb.StoreId = car.StoreId;
-                carInDb.Price = car.Price;
-                carInDb.Year = car.Year;
+                var carInDb = _context.Cars.Single(c => c.Id == carViewModel.Car.Id);
+                carInDb.Model = carViewModel.Car.Model;
+                carInDb.Brand = carViewModel.Car.Brand;
+                carInDb.StoreId = carViewModel.Car.StoreId;
+                carInDb.Price = carViewModel.Car.Price;
+                carInDb.Year = carViewModel.Car.Year;
             }
             _context.SaveChanges();
 

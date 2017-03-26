@@ -12,18 +12,24 @@ namespace Rent_O_Matic.Models
     {
         public int Id { get; set; }
 
+        [Required]
         public string Name { get; set; }
 
         [Display(Name = "Driving Liscense Number")]
+        [Required]
         public string DrivingLiscense { get; set; }
 
         [Display(Name = "Years Old")]
+        [Required]
         public int YearsOld { get; set; }
 
+        [Required]
         public string Nationality { get; set; }
 
+        [Required]
         public Car Car { get; set; }
 
+        [Required]
         public Store Store { get; set; }
 
         [Display(Name = "Showroom store")]

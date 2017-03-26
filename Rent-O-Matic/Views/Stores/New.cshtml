@@ -19,11 +19,13 @@ else
 <div class="form-group">
     @Html.LabelFor(m => m.Store.City)
     @Html.TextBoxFor(m => m.Store.City, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m=>m.Store.City)
 </div>
 
 <div class="form-group">
     @Html.LabelFor(m => m.Store.Country)
     @Html.TextBoxFor(m => m.Store.Country, new { @class = "form-control" })
+    @Html.ValidationMessageFor(m => m.Store.Country)
 </div>
 
     @Html.HiddenFor(c=>c.Store.Id)

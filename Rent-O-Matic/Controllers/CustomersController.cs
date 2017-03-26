@@ -38,19 +38,26 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Customer customer)
+        public ActionResult Save(CustomerViewModel customerViewModel)
         {
-            if (customer.Id == 0)
-                _context.Customers.Add(customer);
+
+            var stores = _context.Stores.ToList();
+            customerViewModel.Stores = stores;
+
+            if (!ModelState.IsValid)
+                return View("New", customerViewModel);
+
+            if (customerViewModel.Customer.Id == 0)
+                _context.Customers.Add(customerViewModel.Customer);
             else
             {
-                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
-                customerInDb.Name = customer.Name;
-                customerInDb.Nationality = customer.Nationality;
-                customerInDb.DrivingLiscense = customer.DrivingLiscense;
-                customerInDb.YearsOld = customer.YearsOld;
-                customerInDb.CarId = customer.CarId;
-                customerInDb.StoreId = customer.StoreId;
+                var customerInDb = _context.Customers.Single(c => c.Id == customerViewModel.Customer.Id);
+                customerInDb.Name = customerViewModel.Customer.Name;
+                customerInDb.Nationality = customerViewModel.Customer.Nationality;
+                customerInDb.DrivingLiscense = customerViewModel.Customer.DrivingLiscense;
+                customerInDb.YearsOld = customerViewModel.Customer.YearsOld;
+                customerInDb.CarId = customerViewModel.Customer.CarId;
+                customerInDb.StoreId = customerViewModel.Customer.StoreId;
             }
             _context.SaveChanges();
 
