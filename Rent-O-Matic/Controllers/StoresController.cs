@@ -8,6 +8,7 @@ using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
 {
+    [Authorize]
     public class StoresController : Controller
     {
 
@@ -15,8 +16,8 @@ namespace Rent_O_Matic.Controllers
 
         public StoresController()
         {
-            _context=new ApplicationDbContext();
-            
+            _context = new ApplicationDbContext();
+
         }
 
         protected override void Dispose(bool disposing)
@@ -33,7 +34,7 @@ namespace Rent_O_Matic.Controllers
 
         public ActionResult New()
         {
-            var storeViewModel=new StoreViewModel();
+            var storeViewModel = new StoreViewModel();
 
             return View(storeViewModel);
         }
@@ -41,7 +42,7 @@ namespace Rent_O_Matic.Controllers
         [HttpPost]
         public ActionResult Save(StoreViewModel storeViewModel)
         {
-            
+
             if (!ModelState.IsValid)
                 return View("New", storeViewModel);
             if (storeViewModel.Store.Id == 0)

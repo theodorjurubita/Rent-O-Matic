@@ -10,6 +10,7 @@ using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
 {
+    [Authorize]
     public class CarsController : Controller
     {
 
