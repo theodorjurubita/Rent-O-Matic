@@ -26,16 +26,14 @@ namespace Rent_O_Matic.Models
         [Required]
         public string Nationality { get; set; }
 
-        [Required]
         public Car Car { get; set; }
 
-        [Required]
         public Store Store { get; set; }
 
         [Display(Name = "Showroom store")]
         public int StoreId { get; set; }
 
-        [Display (Name = "Car available")]
+        [Display(Name = "Car available")]
         public int CarId { get; set; }
 
     }

@@ -39,26 +39,32 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(CustomerViewModel customerViewModel)
+        public ActionResult Save(Customer customer)
         {
 
-            var stores = _context.Stores.ToList();
-            customerViewModel.Stores = stores;
-
+            ModelState.Remove("customer.Id");
             if (!ModelState.IsValid)
+            {
+                var customerViewModel = new CustomerViewModel()
+                {
+                    Stores = _context.Stores.ToList(),
+                    Customer = customer
+                };
                 return View("New", customerViewModel);
 
-            if (customerViewModel.Customer.Id == 0)
-                _context.Customers.Add(customerViewModel.Customer);
+            }
+
+            if (customer.Id == 0)
+                _context.Customers.Add(customer);
             else
             {
-                var customerInDb = _context.Customers.Single(c => c.Id == customerViewModel.Customer.Id);
-                customerInDb.Name = customerViewModel.Customer.Name;
-                customerInDb.Nationality = customerViewModel.Customer.Nationality;
-                customerInDb.DrivingLiscense = customerViewModel.Customer.DrivingLiscense;
-                customerInDb.YearsOld = customerViewModel.Customer.YearsOld;
-                customerInDb.CarId = customerViewModel.Customer.CarId;
-                customerInDb.StoreId = customerViewModel.Customer.StoreId;
+                var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
+                customerInDb.Name = customer.Name;
+                customerInDb.Nationality = customer.Nationality;
+                customerInDb.DrivingLiscense = customer.DrivingLiscense;
+                customerInDb.YearsOld = customer.YearsOld;
+                customerInDb.CarId = customer.CarId;
+                customerInDb.StoreId = customer.StoreId;
             }
             _context.SaveChanges();
 
@@ -90,7 +96,9 @@ namespace Rent_O_Matic.Controllers
             CustomerViewModel customerViewModel = new CustomerViewModel()
             {
                 Customer = customer,
-                Stores = _context.Stores.ToList()
+                Stores = _context.Stores.ToList(),
+                Cars = _context.Cars.Where(c => c.StoreId == customer.StoreId)
+
             };
 
             return View("New", customerViewModel);
