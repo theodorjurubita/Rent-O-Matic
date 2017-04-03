@@ -1,6 +1,6 @@
-﻿using System.Data.Entity;
-using Microsoft.AspNet.Identity.EntityFramework;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
 using Rent_O_Matic.Models;
+using System.Data.Entity;
 
 namespace Rent_O_Matic.ViewModels
 {
@@ -11,6 +11,7 @@ namespace Rent_O_Matic.ViewModels
         public DbSet<Car> Cars { get; set; }
         public DbSet<Store> Stores { get; set; }
         public DbSet<Customer> Customers { get; set; }
+        public DbSet<RentalsHistory> RentalsHistories { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

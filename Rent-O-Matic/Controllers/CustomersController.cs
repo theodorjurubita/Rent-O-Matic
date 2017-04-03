@@ -1,17 +1,13 @@
-﻿using System;
+﻿using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
 using System.Collections.Generic;
-using System.Data.Entity;
 using System.Linq;
-using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using System.Web.UI.WebControls;
-using Rent_O_Matic.Models;
-using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = RoleName.CanManageCars)]
     public class CustomersController : Controller
     {
         private ApplicationDbContext _context;

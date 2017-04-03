@@ -1,5 +1,7 @@
 ﻿@using System.Web.UI.WebControls
 @using Microsoft.AspNet.Identity
+@using Rent_O_Matic.Models
+@using Rent_O_Matic.ViewModels
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -13,12 +15,15 @@
                 </li>*@
 
             <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.Name <span class="caret"></span></a>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">@User.Identity.GetPersonsName() <span class="caret"></span></a>
                 <ul class="dropdown-menu">
                     <li>@Html.ActionLink("Cars", "Index", "Cars")</li>
                     <li>@Html.ActionLink("Stores", "Index", "Stores")</li>
-                    <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
-
+                    @if (User.IsInRole(RoleName.CanManageCars))
+                    {
+                        <li>@Html.ActionLink("Customers", "Index", "Customers")</li>
+                    }
+                   
                     <li role="separator" class="divider"></li>
                     <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                 </ul>

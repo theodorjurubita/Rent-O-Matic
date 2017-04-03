@@ -1,0 +1,50 @@
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Store>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Available store locations</h2>
+
+@Html.ActionLink("New", "New", "Stores", new { @class = "btn btn-primary" })
+
+<br />
+<br />
+
+<table id="stores" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>City</th>
+            <th>Country</th>
+        </tr>
+    </thead>
+    <tbody></tbody>
+</table>
+
+@section scripts{
+
+    <script>
+        $(document).ready(function () {
+            $("#stores").DataTable({
+                ajax: {
+                    url: "/api/stores",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "city",
+                        render: function (data, type, store) {
+                            return "<a href='/stores/edit/" + store.id + "'>" + store.city + "</a>";
+                        }
+                    },
+                    {
+                        data: "country"
+                    }
+                ]
+            });
+        });
+    </script>
+
+}
+

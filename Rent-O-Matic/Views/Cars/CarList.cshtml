@@ -1,0 +1,111 @@
+﻿@using Rent_O_Matic.Models
+@model IEnumerable<Car>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Current available cars</h2>
+
+@Html.ActionLink("New", "New", "Cars", new { @class = "btn btn-primary" })
+
+<br />
+<br />
+
+<table id="cars" class="table table-bordered table-hover">
+    <thead>
+        <tr>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Year</th>
+            <th>Price per day($)</th>
+            <th>Store Location</th>
+            <th>Delete</th>
+        </tr>
+    </thead>
+    @*<tbody>
+            @foreach (var car in Model)
+            {
+                <tr>
+                    <td>@Html.ActionLink(car.Brand, "Edit", "Cars", new { id=car.Id}, null)</td>
+                    <td>@car.Model</td>
+                    <td>@car.Year</td>
+                    <td>@car.Price</td>
+                    <td>@car.Store.City</td>
+                </tr>
+            }
+        </tbody>*@
+</table>
+
+@section scripts
+{
+    <script>
+        $(document).ready(function () {
+            var carsTable = $("#cars").DataTable({
+                ajax: {
+                    url: "/api/cars",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "",
+                        render: function (data, type, car) {
+                            return "<a href='/cars/edit/" + car.id + "'>" + car.brand + "</a>";
+                        }
+                    },
+                    {
+                        data: "model",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "year",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "price",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, car) {
+                            return "<td>" + car.store.city + ", " + car.store.country + "</td>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, car) {
+                            return "<button class='btn-link js-delete' data-car-id='" + car.id + "'>Delete</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#cars").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    bootbox.confirm("Are you sure you want to delete this car?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/cars/" + button.attr("data-car-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        carsTable.rows(button.parents("tr")).remove().draw();
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                });
+        })
+    </script>
+}

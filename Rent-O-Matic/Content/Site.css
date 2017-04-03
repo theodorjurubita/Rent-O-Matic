@@ -81,3 +81,8 @@ h6,
 .btn-link {
     color: #fb1204;
 }
+.field-validation-error {
+    color: red;
+    font-size: 15px;
+
+}

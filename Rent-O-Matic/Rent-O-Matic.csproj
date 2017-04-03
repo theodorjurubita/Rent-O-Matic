@@ -272,11 +272,17 @@
     <Compile Include="Migrations\201703261025499_AddRequiredAttributesToModels.Designer.cs">
       <DependentUpon>201703261025499_AddRequiredAttributesToModels.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201703261031147_SmallChange.cs" />
-    <Compile Include="Migrations\201703261031147_SmallChange.Designer.cs">
-      <DependentUpon>201703261031147_SmallChange.cs</DependentUpon>
+    <Compile Include="Migrations\201704020907475_AddRentalsHisoryToDataBaseAndBuyPriceToCar.cs" />
+    <Compile Include="Migrations\201704020907475_AddRentalsHisoryToDataBaseAndBuyPriceToCar.Designer.cs">
+      <DependentUpon>201704020907475_AddRentalsHisoryToDataBaseAndBuyPriceToCar.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704031754181_SeedUsers.cs" />
+    <Compile Include="Migrations\201704031754181_SeedUsers.Designer.cs">
+      <DependentUpon>201704031754181_SeedUsers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\RentalsHistory.cs" />
+    <Compile Include="Models\RoleName.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Customer.cs" />
@@ -285,6 +291,7 @@
     <Compile Include="ViewModels\ExternalLoginListViewModel.cs" />
     <Compile Include="ViewModels\ForgotViewModel.cs" />
     <Compile Include="ViewModels\ExternalLoginConfirmationViewModel.cs" />
+    <Compile Include="ViewModels\IdentityExtensions.cs" />
     <Compile Include="ViewModels\IdentityModels.cs" />
     <Compile Include="ViewModels\LoginViewModel.cs" />
     <Compile Include="ViewModels\ManageViewModels.cs" />
@@ -536,10 +543,12 @@
     <Content Include="Views\Shared\_NavBar.cshtml" />
     <Content Include="Views\Cars\New.cshtml" />
     <Content Include="Views\Stores\New.cshtml" />
-    <Content Include="Views\Cars\Index.cshtml" />
+    <Content Include="Views\Cars\CarList.cshtml" />
     <Content Include="Views\Customers\New.cshtml" />
-    <Content Include="Views\Stores\Index.cshtml" />
+    <Content Include="Views\Stores\StoresList.cshtml" />
     <Content Include="Views\Customers\Index.cshtml" />
+    <Content Include="Views\Cars\ReadOnlyCarList.cshtml" />
+    <Content Include="Views\Stores\ReadOnlyStoresList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -586,8 +595,11 @@
     <EmbeddedResource Include="Migrations\201703261025499_AddRequiredAttributesToModels.resx">
       <DependentUpon>201703261025499_AddRequiredAttributesToModels.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201703261031147_SmallChange.resx">
-      <DependentUpon>201703261031147_SmallChange.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201704020907475_AddRentalsHisoryToDataBaseAndBuyPriceToCar.resx">
+      <DependentUpon>201704020907475_AddRentalsHisoryToDataBaseAndBuyPriceToCar.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704031754181_SeedUsers.resx">
+      <DependentUpon>201704031754181_SeedUsers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

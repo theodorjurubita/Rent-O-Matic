@@ -1,5 +1,4 @@
-﻿using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Rent_O_Matic
 {
@@ -8,6 +7,7 @@ namespace Rent_O_Matic
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
             filters.Add(new HandleErrorAttribute());
+            filters.Add(new AuthorizeAttribute());
         }
     }
 }

@@ -1,10 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using Rent_O_Matic.Models;
+﻿using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
+using System.Linq;
+using System.Web.Mvc;
 
 namespace Rent_O_Matic.Controllers
 {
@@ -29,9 +26,12 @@ namespace Rent_O_Matic.Controllers
         public ActionResult Index()
         {
             var stores = _context.Stores.ToList();
-            return View(stores);
+            if (User.IsInRole(RoleName.CanManageCars))
+                return View("StoresList", stores);
+            return View("ReadOnlyStoresList", stores);
         }
 
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult New()
         {
             var storeViewModel = new StoreViewModel();
@@ -40,18 +40,19 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult Save(Store store)
         {
             ModelState.Remove("store.Id");
             if (!ModelState.IsValid)
             {
-                var storeViewModel=new StoreViewModel()
+                var storeViewModel = new StoreViewModel()
                 {
                     Store = store
                 };
                 return View("New", storeViewModel);
             }
-                
+
             if (store.Id == 0)
                 _context.Stores.Add(store);
             else
@@ -64,6 +65,7 @@ namespace Rent_O_Matic.Controllers
             return RedirectToAction("Index", "Stores");
         }
 
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult Edit(int id)
         {
             var store = _context.Stores.SingleOrDefault(c => c.Id == id);

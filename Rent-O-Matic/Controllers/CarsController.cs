@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
 using System.Data.Entity;
 using System.Linq;
-using System.Web;
 using System.Web.Mvc;
-using AutoMapper;
-using Rent_O_Matic.Models;
-using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers
 {
@@ -26,15 +22,8 @@ namespace Rent_O_Matic.Controllers
             _context.Dispose();
         }
 
-        // GET: Cars
-        public ActionResult Random()
-        {
-            var cars = _context.Cars.ToList();
 
-            return View(cars);
-        }
-
-        [Authorize]
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult New()
         {
             var stores = _context.Stores.ToList();
@@ -46,7 +35,7 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult Save(Car car)
         {
             ModelState.Remove("car.Id");
@@ -78,19 +67,17 @@ namespace Rent_O_Matic.Controllers
             return RedirectToAction("Index", "Cars");
         }
 
-        [Route("cars/years/{year}")]
-        public ActionResult ByYear(int year)
-        {
-            return Content(year.ToString());
-        }
-
 
         //GET: Cars
         public ActionResult Index()
         {
             var cars = _context.Cars.Include(c => c.Store).ToList();
-            return View(cars);
+            if (User.IsInRole(RoleName.CanManageCars))
+                return View("CarList", cars);
+            return View("ReadOnlyCarList", cars);
         }
+
+        [Authorize(Roles = RoleName.CanManageCars)]
         public ActionResult Edit(int id)
         {
 
