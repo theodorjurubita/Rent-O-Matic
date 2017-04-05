@@ -1,14 +1,13 @@
-﻿using System;
+﻿using AutoMapper;
+using Rent_O_Matic.DTOs;
+using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using AutoMapper;
-using Rent_O_Matic.DTOs;
-using Rent_O_Matic.Models;
-using Rent_O_Matic.ViewModels;
 
 namespace Rent_O_Matic.Controllers.API
 {
@@ -42,9 +41,9 @@ namespace Rent_O_Matic.Controllers.API
             return Ok(Mapper.Map<Car, CarDto>(car));
         }
 
-        //POST /api/car
+        //POST /api/cars
         [HttpPost]
-        public IHttpActionResult CreateCustomer(CarDto carDto)
+        public IHttpActionResult CreateCar(CarDto carDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest();
@@ -57,9 +56,9 @@ namespace Rent_O_Matic.Controllers.API
             return Created(new Uri(Request.RequestUri + "/" + car.Id), carDto);
         }
 
-        //PUT /api/customers/1
+        //PUT /api/cars/1
         [HttpPut]
-        public void UpdateCustomer(int id, CarDto carDto)
+        public void UpdateCar(int id, CarDto carDto)
         {
             if (!ModelState.IsValid)
                 throw new HttpResponseException(HttpStatusCode.BadRequest);

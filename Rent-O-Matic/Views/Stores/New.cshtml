@@ -18,7 +18,7 @@ else
 { 
 <div class="form-group">
     @Html.LabelFor(m => m.Store.City)
-    @Html.TextBoxFor(m => m.Store.City, new { @class = "form-control" })
+    @Html.TextBoxFor(m => m.Store.City, new { @class = "form-control", autofocus = "autofocus" })
     @Html.ValidationMessageFor(m=>m.Store.City)
 </div>
 

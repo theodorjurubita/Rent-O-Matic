@@ -5,7 +5,7 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Current available cars</h2>
+<h2>Current cars list</h2>
 
 @Html.ActionLink("New", "New", "Cars", new { @class = "btn btn-primary" })
 
@@ -20,21 +20,10 @@
             <th>Year</th>
             <th>Price per day($)</th>
             <th>Store Location</th>
+            <th>Is Rented?</th>
             <th>Delete</th>
         </tr>
     </thead>
-    @*<tbody>
-            @foreach (var car in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink(car.Brand, "Edit", "Cars", new { id=car.Id}, null)</td>
-                    <td>@car.Model</td>
-                    <td>@car.Year</td>
-                    <td>@car.Price</td>
-                    <td>@car.Store.City</td>
-                </tr>
-            }
-        </tbody>*@
 </table>
 
 @section scripts
@@ -75,6 +64,17 @@
                         data: "",
                         render: function (data, type, car) {
                             return "<td>" + car.store.city + ", " + car.store.country + "</td>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, car) {
+                            var rented = car.isRented;
+                            if (rented)
+                                return "<td>Yes</td>";
+                            else {
+                                return "<td>No</td>";
+                            }
                         }
                     },
                     {

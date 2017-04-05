@@ -17,6 +17,7 @@
         <tr>
             <th>City</th>
             <th>Country</th>
+            <th>Delete</th>
         </tr>
     </thead>
     <tbody></tbody>
@@ -26,7 +27,7 @@
 
     <script>
         $(document).ready(function () {
-            $("#stores").DataTable({
+            var storesTable = $("#stores").DataTable({
                 ajax: {
                     url: "/api/stores",
                     dataSrc: ""
@@ -40,9 +41,44 @@
                     },
                     {
                         data: "country"
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, store) {
+                            return "<button class='btn-link js-delete' data-store-id='" + store.id + "' data-hasCars-bool='" + store.hasCars + "'>Delete</button>";
+                        }
                     }
                 ]
             });
+            $("#stores").on("click",
+                ".js-delete",
+                function () {
+                    var button = $(this);
+                    var hasCars = button.attr("data-hasCars-bool");
+                    if (hasCars === 'true') {
+                        bootbox.alert("You cannot delete this store because it has cars attached!");
+                    } else {
+                        bootbox.confirm("Are you sure you want to delete this store?",
+                        function (result) {
+
+                            if (result) {
+                                $.ajax({
+                                    url: "/api/stores/" + button.attr("data-store-id"),
+                                    method: "DELETE",
+                                    success: function () {
+                                        storesTable.rows(button.parents("tr")).remove().draw();
+                                    }
+
+                                });
+
+                            }
+
+
+                        });
+                    }
+
+
+                });
         });
     </script>
 

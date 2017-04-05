@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
-using Rent_O_Matic.ViewModels;
-
-namespace Rent_O_Matic.DTOs
+﻿namespace Rent_O_Matic.DTOs
 {
     public class CarDto
     {
@@ -22,5 +15,7 @@ namespace Rent_O_Matic.DTOs
         public StoreDto Store { get; set; }
 
         public int StoreId { get; set; }
+
+        public bool IsRented { get; set; }
     }
 }

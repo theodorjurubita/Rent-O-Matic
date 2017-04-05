@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Rent_O_Matic.Models
 {
@@ -15,6 +11,8 @@ namespace Rent_O_Matic.Models
 
         [Required]
         public string Country { get; set; }
+
+        public bool HasCars { get; set; }
 
     }
 }

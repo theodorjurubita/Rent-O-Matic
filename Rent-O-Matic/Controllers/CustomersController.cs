@@ -51,7 +51,10 @@ namespace Rent_O_Matic.Controllers
             }
 
             if (customer.Id == 0)
+            {
                 _context.Customers.Add(customer);
+            }
+
             else
             {
                 var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
@@ -59,9 +62,17 @@ namespace Rent_O_Matic.Controllers
                 customerInDb.Nationality = customer.Nationality;
                 customerInDb.DrivingLiscense = customer.DrivingLiscense;
                 customerInDb.YearsOld = customer.YearsOld;
+
+                var carRentedBefore = _context.Cars.Single(c => c.Id == customerInDb.CarId);
+                carRentedBefore.IsRented = false;
+
                 customerInDb.CarId = customer.CarId;
                 customerInDb.StoreId = customer.StoreId;
+
             }
+            var carRented = _context.Cars.Single(c => c.Id == customer.CarId);
+            carRented.IsRented = true;
+
             _context.SaveChanges();
 
             return RedirectToAction("Index", "Customers");

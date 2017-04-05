@@ -28,5 +28,7 @@ namespace Rent_O_Matic.Models
         [Display(Name = "Showroom Store")]
         public int StoreId { get; set; }
 
+        public bool IsRented { get; set; }
+
     }
 }

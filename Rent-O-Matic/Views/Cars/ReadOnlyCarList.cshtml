@@ -20,18 +20,6 @@
             <th>Store Location</th>
         </tr>
     </thead>
-    @*<tbody>
-            @foreach (var car in Model)
-            {
-                <tr>
-                    <td>@Html.ActionLink(car.Brand, "Edit", "Cars", new { id=car.Id}, null)</td>
-                    <td>@car.Model</td>
-                    <td>@car.Year</td>
-                    <td>@car.Price</td>
-                    <td>@car.Store.City</td>
-                </tr>
-            }
-        </tbody>*@
 </table>
 
 @section scripts
@@ -40,7 +28,7 @@
         $(document).ready(function () {
             var carsTable = $("#cars").DataTable({
                 ajax: {
-                    url: "/api/cars",
+                    url: "/api/availableCars",
                     dataSrc: ""
                 },
                 columns: [

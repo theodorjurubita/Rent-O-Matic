@@ -1,13 +1,12 @@
-﻿using System;
+﻿using AutoMapper;
+using Rent_O_Matic.DTOs;
+using Rent_O_Matic.Models;
+using Rent_O_Matic.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using AutoMapper;
-using Rent_O_Matic.ViewModels;
-using Rent_O_Matic.DTOs;
-using Rent_O_Matic.Models;
 
 namespace Rent_O_Matic.Controllers.API
 {
@@ -17,7 +16,7 @@ namespace Rent_O_Matic.Controllers.API
 
         public StoresController()
         {
-            _context=new ApplicationDbContext();
+            _context = new ApplicationDbContext();
         }
 
         //GET /api/stores
@@ -46,7 +45,7 @@ namespace Rent_O_Matic.Controllers.API
             var store = _context.Stores.SingleOrDefault(c => c.Id == id);
             if (store == null)
                 return NotFound();
-            return Ok(Mapper.Map<Store,StoreDto>(store));
+            return Ok(Mapper.Map<Store, StoreDto>(store));
         }
 
         //PUT /api/stores/1
@@ -60,6 +59,25 @@ namespace Rent_O_Matic.Controllers.API
             if (store == null)
                 throw new HttpResponseException(HttpStatusCode.NotFound);
             Mapper.Map(storeDto, store);
+            _context.SaveChanges();
+        }
+
+        //DELETE /api/stores/1
+        [HttpDelete]
+        public void DeleteStore(int id)
+        {
+
+            var store = _context.Stores.SingleOrDefault(c => c.Id == id);
+            var hasCarsAttached = _context.Cars.Where(c => c.StoreId == id).ToList();
+
+            if (hasCarsAttached != null)
+                    
+
+                if (store == null)
+                    throw new HttpResponseException(HttpStatusCode.NotFound);
+
+
+            _context.Stores.Remove(store);
             _context.SaveChanges();
         }
 
