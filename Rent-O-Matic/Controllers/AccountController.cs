@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
+using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 using System.Linq;
 using System.Threading.Tasks;
@@ -14,9 +15,11 @@ namespace Rent_O_Matic.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationDbContext _context;
 
         public AccountController()
         {
+            _context = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
@@ -148,7 +151,15 @@ namespace Rent_O_Matic.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Name = model.Name };
+                var user = new ApplicationUser
+                {
+                    UserName = model.Email,
+                    Email = model.Email,
+                    Name = model.Name,
+                    Nationality = model.Nationality,
+                    YearsOld = model.YearsOld,
+                    DrivingLiscense = model.DrivingLiscense
+                };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -157,7 +168,16 @@ namespace Rent_O_Matic.Controllers
                     //var roleManager = new RoleManager<IdentityRole>(roleStore);
                     //await roleManager.CreateAsync(new IdentityRole("CanManageCars"));
                     //await UserManager.AddToRoleAsync(user.Id, "CanManageCars");
-
+                    var customerForUser = new Customer()
+                    {
+                        Name = user.Name,
+                        Nationality = user.Nationality,
+                        YearsOld = user.YearsOld,
+                        DrivingLiscense = user.DrivingLiscense,
+                        UserId = User.Identity.GetUserId()
+                    };
+                    _context.Customers.Add(customerForUser);
+                    _context.SaveChanges();
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771

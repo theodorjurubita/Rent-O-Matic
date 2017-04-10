@@ -11,6 +11,20 @@ namespace Rent_O_Matic.ViewModels
         public string Name { get; set; }
 
         [Required]
+        [StringLength(100)]
+        [Display(Name = "Nationality")]
+        public string Nationality { get; set; }
+
+        [Required]
+        [Display(Name = "Years Old")]
+        public int YearsOld { get; set; }
+
+        [Required]
+        [StringLength(100)]
+        [Display(Name = "Driving Liscense No.")]
+        public string DrivingLiscense { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

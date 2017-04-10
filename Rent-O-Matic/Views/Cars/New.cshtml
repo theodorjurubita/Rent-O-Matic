@@ -13,7 +13,6 @@ else
     <h2>Edit Car</h2>
 }
 
-
 @using (Html.BeginForm("Save", "Cars"))
 {
     <div class="form-group">
@@ -35,6 +34,11 @@ else
         @Html.LabelFor(m => m.Car.Price)
         @Html.TextBoxFor(m => m.Car.Price, new { @class = "form-control" })
         @Html.ValidationMessageFor(m => m.Car.Price)
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Car.AcquisitionPrice)
+        @Html.TextBoxFor(m => m.Car.AcquisitionPrice, new { @class = "form-control" })
+        @Html.ValidationMessageFor(m => m.Car.AcquisitionPrice)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Car.StoreId)

@@ -289,6 +289,14 @@
     <Compile Include="Migrations\201704051935429_AddHasCarsColumnToStoreTable.Designer.cs">
       <DependentUpon>201704051935429_AddHasCarsColumnToStoreTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704081705451_DetailsAboutUserAndAddedUserIdToCustomer.cs" />
+    <Compile Include="Migrations\201704081705451_DetailsAboutUserAndAddedUserIdToCustomer.Designer.cs">
+      <DependentUpon>201704081705451_DetailsAboutUserAndAddedUserIdToCustomer.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704081724191_CarAndStoreNullable.cs" />
+    <Compile Include="Migrations\201704081724191_CarAndStoreNullable.Designer.cs">
+      <DependentUpon>201704081724191_CarAndStoreNullable.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\RentalsHistory.cs" />
     <Compile Include="Models\RoleName.cs" />
@@ -309,6 +317,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\RentCarViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
     <Compile Include="ViewModels\SendCodeViewModel.cs" />
     <Compile Include="ViewModels\StoreViewModel.cs" />
@@ -558,6 +567,7 @@
     <Content Include="Views\Customers\Index.cshtml" />
     <Content Include="Views\Cars\ReadOnlyCarList.cshtml" />
     <Content Include="Views\Stores\ReadOnlyStoresList.cshtml" />
+    <Content Include="Views\Cars\Rent.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -615,6 +625,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704051935429_AddHasCarsColumnToStoreTable.resx">
       <DependentUpon>201704051935429_AddHasCarsColumnToStoreTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704081705451_DetailsAboutUserAndAddedUserIdToCustomer.resx">
+      <DependentUpon>201704081705451_DetailsAboutUserAndAddedUserIdToCustomer.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704081724191_CarAndStoreNullable.resx">
+      <DependentUpon>201704081724191_CarAndStoreNullable.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -4,17 +4,22 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-
-
 @if (Model.Customer == null)
 {
     <h2>New Customer</h2>
 }
 else
 {
-    <h2>Edit Customer</h2>
-}
+    if (Model.Customer.Name == null)
+    {
+        <h2>New Customer</h2>
+    }
+    else
+    {
+        <h2>Edit Customer</h2>
+    }
 
+}
 @using (Html.BeginForm("Save", "Customers", new { id = "CustomerForm" }))
 {
     <div class="form-group">
@@ -55,7 +60,11 @@ else
 
     if (@Model.Customer != null)
     {
-        <div data-car-id="@Model.Customer.CarId" hidden="true" id="helperDivCar"></div>
+        if (@Model.Customer.CarId != null)
+        {
+            <div data-car-id="@Model.Customer.CarId" hidden="true" id="helperDivCar"></div>
+        }
+
     }
 
 

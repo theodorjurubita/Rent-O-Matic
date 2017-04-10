@@ -1,4 +1,5 @@
-﻿using Rent_O_Matic.Models;
+﻿using Microsoft.AspNet.Identity;
+using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
 using System.Data.Entity;
 using System.Linq;
@@ -90,6 +91,54 @@ namespace Rent_O_Matic.Controllers
                 Stores = _context.Stores.ToList()
             };
             return View("New", carViewModel);
+        }
+
+        public ActionResult Rent(int id)
+        {
+            var car = _context.Cars.SingleOrDefault(c => c.Id == id);
+            if (car == null)
+                return HttpNotFound();
+            var carStore = _context.Stores.Single(c => c.Id == car.StoreId);
+
+            var carViewModel = new RentCarViewModel()
+            {
+                Car = car,
+                StoreName = carStore.City + ", " + carStore.Country
+            };
+
+            return View("Rent", carViewModel);
+        }
+
+        [HttpPost]
+        public ActionResult SaveRent(RentalsHistory carRented)
+        {
+            if (!ModelState.IsValid)
+            {
+                var carStore = _context.Stores.Single(c => c.Id == carRented.Car.StoreId);
+                var rentCarViewModel = new RentCarViewModel()
+                {
+                    Car = carRented.Car,
+                    //StoreName = store.City + ", " + store.Country
+                    StoreName = carStore.City + ", " + carStore.Country
+                };
+                return View("Rent", rentCarViewModel);
+            }
+
+            var userId = User.Identity.GetUserId();
+
+            var carIsRented = _context.Cars.Single(c => c.Id == carRented.Car.Id);
+            carIsRented.IsRented = true;
+            carRented.Car = carIsRented;
+
+            var customerAttachedToRental = _context.Customers.Single(c => c.UserId == userId);
+            customerAttachedToRental.Store = _context.Stores.Single(c => c.Id == carRented.Car.StoreId);
+            customerAttachedToRental.Car = carIsRented;
+            carRented.Customer = customerAttachedToRental;
+
+            _context.RentalsHistories.Add(carRented);
+            _context.SaveChanges();
+
+            return RedirectToAction("Index", "Cars");
         }
 
 

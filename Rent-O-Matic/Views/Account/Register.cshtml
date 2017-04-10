@@ -17,6 +17,26 @@
             @Html.TextBoxFor(m => m.Name, new { @class = "form-control", autofocus = "autofocus" })
         </div>
     </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Nationality, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.YearsOld, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.YearsOld, new { @class = "form-control"})
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.DrivingLiscense, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.DrivingLiscense, new { @class = "form-control"})
+        </div>
+    </div>
 
     <div class="form-group">
         @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })

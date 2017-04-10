@@ -1,4 +1,5 @@
-﻿@using Rent_O_Matic.Models
+﻿@using Microsoft.AspNet.Identity
+@using Rent_O_Matic.Models
 @model IEnumerable<Car>
 @{
     ViewBag.Title = "Index";
@@ -12,20 +13,21 @@
 
 <table id="cars" class="table table-bordered table-hover">
     <thead>
-        <tr>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>Year</th>
-            <th>Price per day($)</th>
-            <th>Store Location</th>
-        </tr>
+    <tr>
+        <th>Brand</th>
+        <th>Model</th>
+        <th>Year</th>
+        <th>Price per day($)</th>
+        <th>Store Location</th>
+        <th>Rent this car ?</th>
+    </tr>
     </thead>
 </table>
 
 @section scripts
 {
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             var carsTable = $("#cars").DataTable({
                 ajax: {
                     url: "/api/availableCars",
@@ -34,34 +36,40 @@
                 columns: [
                     {
                         data: "brand",
-                        render: function (data) {
+                        render: function(data) {
                             return "<td>" + data + "</td>";
                         }
                     },
                     {
                         data: "model",
-                        render: function (data) {
+                        render: function(data) {
                             return "<td>" + data + "</td>";
                         }
                     },
                     {
                         data: "year",
-                        render: function (data) {
+                        render: function(data) {
                             return "<td>" + data + "</td>";
                         }
                     },
                     {
                         data: "price",
-                        render: function (data) {
+                        render: function(data) {
                             return "<td>" + data + "</td>";
                         }
                     },
                     {
                         data: "",
-                        render: function (data, type, car) {
+                        render: function(data, type, car) {
                             return "<td>" + car.store.city + ", " + car.store.country + "</td>";
                         }
-                    }
+                    },
+                    {
+                        data: "",
+                        render: function(data, type, car) {
+                            return "<a href='/cars/rent/" + car.id + "'" + "onclick='GetCustomersRentedCars()'"+ ">Rent</a>";
+                        }
+                    } 
                 ]
             });
         })

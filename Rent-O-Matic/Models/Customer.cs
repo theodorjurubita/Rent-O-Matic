@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Data.Entity.ModelConfiguration.Conventions;
-using System.Linq;
-using System.Web;
-using Rent_O_Matic.ViewModels;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Rent_O_Matic.Models
 {
@@ -31,10 +25,12 @@ namespace Rent_O_Matic.Models
         public Store Store { get; set; }
 
         [Display(Name = "Showroom store")]
-        public int StoreId { get; set; }
+        public int? StoreId { get; set; }
 
         [Display(Name = "Car available")]
-        public int CarId { get; set; }
+        public int? CarId { get; set; }
+
+        public string UserId { get; set; }
 
     }
 }

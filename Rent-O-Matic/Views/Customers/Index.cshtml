@@ -62,14 +62,22 @@
                     {
                         data: "",
                         render: function (data, type, customer) {
-                            return "<td>" + customer.car.brand + " " + customer.car.model + "</td>";
+                            if(customer.car!=null)
+                                return "<td>" + customer.car.brand + " " + customer.car.model + "</td>";
+                            else {
+                                return "<td>N/A</td>";
+                            }
                         }
 
                     },
                     {
                         data: "",
                         render: function (data, type, customer) {
-                            return "<td>" + customer.store.city + ", " + customer.store.country + "</td>"
+                            if (customer.store != null)
+                                return "<td>" + customer.store.city + ", " + customer.store.country + "</td>";
+                            else {
+                                return "<td>N/A</td>";
+                            }
                         }
                     },
                     {

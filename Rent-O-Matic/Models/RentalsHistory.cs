@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rent_O_Matic.Models
 {
@@ -12,7 +13,10 @@ namespace Rent_O_Matic.Models
         public Customer Customer { get; set; }
         public int CustomerId { get; set; }
 
+        [Display(Name = "Date to pick up the car")]
         public DateTime DateRented { get; set; }
+
+        [Display(Name = "Date to return the car")]
         public DateTime DateReturned { get; set; }
 
 
