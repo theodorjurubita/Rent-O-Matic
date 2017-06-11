@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNet.Identity;
 using Rent_O_Matic.Models;
 using Rent_O_Matic.ViewModels;
+using System;
 using System.Data.Entity;
 using System.Linq;
 using System.Web.Mvc;
@@ -84,7 +85,9 @@ namespace Rent_O_Matic.Controllers
 
             var car = _context.Cars.SingleOrDefault(c => c.Id == id);
             if (car == null)
+            {
                 return HttpNotFound();
+            }
             var carViewModel = new CarViewModel
             {
                 Car = car,
@@ -97,7 +100,9 @@ namespace Rent_O_Matic.Controllers
         {
             var car = _context.Cars.SingleOrDefault(c => c.Id == id);
             if (car == null)
+            {
                 return HttpNotFound();
+            }
             var carStore = _context.Stores.Single(c => c.Id == car.StoreId);
 
             var carViewModel = new RentCarViewModel()
@@ -127,7 +132,10 @@ namespace Rent_O_Matic.Controllers
             var userId = User.Identity.GetUserId();
 
             var carIsRented = _context.Cars.Single(c => c.Id == carRented.Car.Id);
-            carIsRented.IsRented = true;
+            if (carRented.DateRented.Date == DateTime.Today)
+            {
+                carIsRented.IsRented = true;
+            }
             carRented.Car = carIsRented;
 
             var customerAttachedToRental = _context.Customers.Single(c => c.UserId == userId);

@@ -298,6 +298,8 @@
       <DependentUpon>201704081724191_CarAndStoreNullable.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\DateRentedOutsideOtherRentalsPeriod.cs" />
+    <Compile Include="Models\DateReturnedBeforeOtherRentals.cs" />
     <Compile Include="Models\RentalsHistory.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />

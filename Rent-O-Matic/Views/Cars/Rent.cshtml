@@ -1,4 +1,6 @@
-﻿@model Rent_O_Matic.ViewModels.RentCarViewModel
+﻿@using System.EnterpriseServices
+@using System.Web.UI.WebControls
+@model Rent_O_Matic.ViewModels.RentCarViewModel
 
 @{
     ViewBag.Title = "Rent";
@@ -35,12 +37,12 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DateRented)
-        @Html.TextBoxFor(m => m.DateRented, new { @class = "form-control", autofocus = "autofocus" })
+        @Html.TextBoxFor(m => m.DateRented, new { @class = "form-control", autocomplete = "off", autofocus = "autofocus", placeholder="Eg. 11/11/2017", id="dateRented" })
         @Html.ValidationMessageFor(m => m.DateRented)
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.DateReturned)
-        @Html.TextBoxFor(m => m.DateReturned, new { @class = "form-control" })
+        @Html.TextBoxFor(m => m.DateReturned, new { @class = "form-control", text="", placeholder = "Eg. 12/11/2017" , id = "dateReturned" })
         @Html.ValidationMessageFor(m => m.DateReturned)
     </div>
 
@@ -55,4 +57,13 @@
         Save
     </button>
 
+}
+
+@section Scripts{
+    <script language="javascript" type="text/javascript">
+        $(document).ready(function() {
+            $('#dateRented').val("");
+            $('#dateReturned').val("");
+        });
+    </script>
 }
