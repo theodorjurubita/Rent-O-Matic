@@ -1,3 +1,50 @@
-﻿@{
+﻿@model IEnumerable<Rent_O_Matic.ViewModels.RentedCarsViewModel>
+@using Rent_O_Matic.Models
+@{
     ViewBag.Title = "Home Page";
+}
+
+@if (!User.IsInRole(RoleName.CanManageCars))
+{
+    if (Model == null)
+    {
+        <h1>Welcome to Rent-O-Matic</h1>
+    }
+    else
+    {
+        if (!Model.Any())
+        {
+            <p>You currently don't have any cars rented!</p>
+        }
+        else
+        {
+            <h2>Your currently rented cars: </h2>
+            <br />
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Price per day</th>
+                        <th>DateRented</th>
+                        <th>Date to return</th>
+                        <th>Store where you rented</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var carRented in Model)
+                    {
+                        <tr>
+                            <td>@carRented.Brand</td>
+                            <td>@carRented.Model</td>
+                            <td>@carRented.PricePerDay $</td>
+                            <td>@carRented.DateRented.ToString("d")</td>
+                            <td>@carRented.DateReturned.ToString("d")</td>
+                            <td>@carRented.Store</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        }
+    }
 }
