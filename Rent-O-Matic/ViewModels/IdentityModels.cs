@@ -12,6 +12,7 @@ namespace Rent_O_Matic.ViewModels
         public DbSet<Store> Stores { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<RentalsHistory> RentalsHistories { get; set; }
+        public DbSet<IncidentGravity> IncidentGravities { get; set; }
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {

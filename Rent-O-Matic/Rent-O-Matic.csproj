@@ -216,6 +216,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\API\AvailableCarsController.cs" />
     <Compile Include="Controllers\API\CarsController.cs" />
+    <Compile Include="Controllers\API\CarsHistoryController.cs" />
     <Compile Include="Controllers\API\CustomersController.cs" />
     <Compile Include="Controllers\API\StoresController.cs" />
     <Compile Include="Controllers\CarsController.cs" />
@@ -297,9 +298,26 @@
     <Compile Include="Migrations\201704081724191_CarAndStoreNullable.Designer.cs">
       <DependentUpon>201704081724191_CarAndStoreNullable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706111704157_AddIncidentGravityTableAndForeignKeyToRentalsHistories.cs" />
+    <Compile Include="Migrations\201706111704157_AddIncidentGravityTableAndForeignKeyToRentalsHistories.Designer.cs">
+      <DependentUpon>201706111704157_AddIncidentGravityTableAndForeignKeyToRentalsHistories.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706111710379_PopulateIncidentGravityTable.cs" />
+    <Compile Include="Migrations\201706111710379_PopulateIncidentGravityTable.Designer.cs">
+      <DependentUpon>201706111710379_PopulateIncidentGravityTable.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706111754293_PopulateIncidentGravityTable1.cs" />
+    <Compile Include="Migrations\201706111754293_PopulateIncidentGravityTable1.Designer.cs">
+      <DependentUpon>201706111754293_PopulateIncidentGravityTable1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201706121832300_AlterForeignKeyRentalsHistories.cs" />
+    <Compile Include="Migrations\201706121832300_AlterForeignKeyRentalsHistories.Designer.cs">
+      <DependentUpon>201706121832300_AlterForeignKeyRentalsHistories.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DateRentedOutsideOtherRentalsPeriod.cs" />
     <Compile Include="Models\DateReturnedBeforeOtherRentals.cs" />
+    <Compile Include="Models\IncidentGravity.cs" />
     <Compile Include="Models\RentalsHistory.cs" />
     <Compile Include="Models\RoleName.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
@@ -319,6 +337,7 @@
     <Compile Include="Startup.cs" />
     <Compile Include="ViewModels\CarViewModel.cs" />
     <Compile Include="ViewModels\RegisterViewModel.cs" />
+    <Compile Include="ViewModels\RentalHistoryViewModel.cs" />
     <Compile Include="ViewModels\RentCarViewModel.cs" />
     <Compile Include="ViewModels\RentedCarsViewModel.cs" />
     <Compile Include="ViewModels\ResetPasswordViewModel.cs" />
@@ -634,6 +653,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704081724191_CarAndStoreNullable.resx">
       <DependentUpon>201704081724191_CarAndStoreNullable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706111704157_AddIncidentGravityTableAndForeignKeyToRentalsHistories.resx">
+      <DependentUpon>201706111704157_AddIncidentGravityTableAndForeignKeyToRentalsHistories.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706111710379_PopulateIncidentGravityTable.resx">
+      <DependentUpon>201706111710379_PopulateIncidentGravityTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706111754293_PopulateIncidentGravityTable1.resx">
+      <DependentUpon>201706111754293_PopulateIncidentGravityTable1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706121832300_AlterForeignKeyRentalsHistories.resx">
+      <DependentUpon>201706121832300_AlterForeignKeyRentalsHistories.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

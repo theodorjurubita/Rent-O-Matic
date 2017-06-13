@@ -19,32 +19,153 @@
         else
         {
             <h2>Your currently rented cars: </h2>
-            <br />
+            <br/>
             <table class="table table-striped">
                 <thead>
-                    <tr>
-                        <th>Brand</th>
-                        <th>Model</th>
-                        <th>Price per day</th>
-                        <th>DateRented</th>
-                        <th>Date to return</th>
-                        <th>Store where you rented</th>
-                    </tr>
+                <tr>
+                    <th>Brand</th>
+                    <th>Model</th>
+                    <th>Price per day</th>
+                    <th>DateRented</th>
+                    <th>Date to return</th>
+                    <th>Store where you rented</th>
+                </tr>
                 </thead>
                 <tbody>
-                    @foreach (var carRented in Model)
-                    {
-                        <tr>
-                            <td>@carRented.Brand</td>
-                            <td>@carRented.Model</td>
-                            <td>@carRented.PricePerDay $</td>
-                            <td>@carRented.DateRented.ToString("d")</td>
-                            <td>@carRented.DateReturned.ToString("d")</td>
-                            <td>@carRented.Store</td>
-                        </tr>
-                    }
+                @foreach (var carRented in Model)
+                {
+                    <tr>
+                        <td>@carRented.Brand</td>
+                        <td>@carRented.Model</td>
+                        <td>@carRented.PricePerDay $</td>
+                        <td>@carRented.DateRented.ToString("d")</td>
+                        <td>@carRented.DateReturned.ToString("d")</td>
+                        <td>@carRented.Store</td>
+                    </tr>
+                }
                 </tbody>
             </table>
         }
     }
 }
+else
+{
+    <h1> Overview of rental transactions </h1>
+    <br/>
+    <br/>
+
+    <table id="history" class="table table-bordered table-hover">
+        <thead>
+        <tr>
+            <th>Customer Name</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>DateRented</th>
+            <th>DateReturned</th>
+            <th>IncidentGravity</th>
+            <th>UpdateIncidentGravity</th>
+        </tr>
+        </thead>
+    </table>
+}
+    @section scripts
+    {
+        <script>
+            $.formattedDate = function (dateToFormat) {
+                var dateObject = new Date(dateToFormat);
+                var day = dateObject.getDate();
+                var month = dateObject.getMonth() + 1;
+                var year = dateObject.getFullYear();
+                day = day < 10 ? "0" + day : day;
+                month = month < 10 ? "0" + month : month;
+                var formattedDate = day + "/" + month + "/" + year;
+                return formattedDate;
+            };
+            $(document).ready(function() {
+                var historyTable = $("#history").DataTable({
+                    ajax: {
+                        url: "/api/carsHistory",
+                        dataSrc: ""
+                    },
+                    columns: [
+                        {
+                            data: "customerName",
+                            render: function(data) {
+                                return "<td>" + data + "</a>";
+                            }
+                        },
+                        {
+                            data: "carBrand",
+                            render: function(data) {
+                                return "<td>" + data + "</td>";
+                            }
+                        },
+                        {
+                            data: "carModel",
+                            render: function(data) {
+                                return "<td>" + data + "</td>";
+                            }
+                        },
+                        {
+                            data: "dateRented",
+                            render: function(data) {
+                                return "<td>" + $.formattedDate(data) + "</td>";
+                            }
+                        },
+                        {
+                            data: "dateReturned",
+                            render: function(data) {
+                                return "<td>" + $.formattedDate(data) + "</td>";
+                            }
+                        },
+                        {
+                            data: "",
+                            render: function(data,type,rentalHistory) {
+                                var listItems = "";
+                                for (var i = 0; i < rentalHistory.incidentGravity.length; i++) {
+                                    listItems += "<option value=" + rentalHistory.incidentGravity[i].id + ">" + rentalHistory.incidentGravity[i].gravity + "</option>";
+                                }
+                                var id = rentalHistory.incidentGravityId;
+                                return "<select type='submit'  class='form-control' id='ddlGravity "+rentalHistory.rentalHistoryId+"'>" +
+                                    "<option value=" + id + ">" + rentalHistory.incidentGravity[id - 1].gravity + "</option>" +
+                                    listItems +
+                                    " </select>";
+                            }
+                        },
+                        {
+                            data: "",
+                            render: function(data,type,rentalHistory) {
+                                return "<button class='btn-link js-update' data-history-id='" + rentalHistory.rentalHistoryId + "'>Update</button>";
+                            }
+                        }
+                    ]
+                });
+
+                $("#history").on("click",
+                ".js-update",
+                function () {
+                    var button = $(this);
+                    var id = button.attr("data-history-id");
+                    var indexId = document.getElementById("ddlGravity "+id).selectedIndex;
+                    bootbox.confirm("Are you sure you want to update this rental?",
+                        function (result) {
+                            if (result) {
+                                $.ajax({
+                                    url: "api/carsHistory/update/" + button.attr("data-history-id") + "/" + indexId,
+                                    method: "PUT",
+                                    //data: {
+                                    //    rentalHistoryId: button.attr("data-history-id="),
+                                    //    gravityId: document.getElementById("ddlGravity").selectedIndex
+                                    //},
+                                    success: function () {
+                                    }
+
+                                });
+                            }
+
+                        });
+
+                });
+            });
+        </script>
+    }

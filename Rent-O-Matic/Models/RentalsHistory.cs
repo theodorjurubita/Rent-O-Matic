@@ -21,6 +21,7 @@ namespace Rent_O_Matic.Models
         [DateReturnedBeforeOtherRentals]
         public DateTime DateReturned { get; set; }
 
-
+        public IncidentGravity IncidentGravity { get; set; }
+        public byte IncidentGravityId { get; set; }
     }
 }

@@ -78,11 +78,22 @@ h6,
     -ms-border-radius: 10px;
     border-radius: 10px;
 }
-.btn-link {
+.js-delete {
     color: #fb1204;
+}
+ 
+.js-update{
+    color: cornflowerblue;
+}
+td {
+    text-align: center;
 }
 .field-validation-error {
     color: red;
     font-size: 15px;
 
+}
+
+th {
+    text-align: center;
 }

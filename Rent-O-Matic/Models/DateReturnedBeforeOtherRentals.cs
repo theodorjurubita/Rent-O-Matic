@@ -14,19 +14,23 @@ namespace Rent_O_Matic.Models
             var _context = new ApplicationDbContext();
 
             var carForRentHistory = _context.RentalsHistories
-                .Where(h => h.CarId == currentRentalHistory.Car.Id)
+                .Where(h => h.CarId == currentRentalHistory.CarId)
                 .Where(h => h.DateRented > DateTime.Today)
                 .ToList();
             foreach (var history in carForRentHistory)
             {
-                if (currentRentalHistory.DateRented < history.DateRented
-                    && currentRentalHistory.DateReturned > history.DateRented)
+                if (history.Id != currentRentalHistory.Id)
                 {
-                    return new ValidationResult("DateReturned must be before "
-                        + history.DateRented.ToString("d")
-                        + " because the car is already booked from then until " + history.DateReturned.ToString("d"));
+                    if (currentRentalHistory.DateRented < history.DateRented
+                    && currentRentalHistory.DateReturned > history.DateRented)
+                    {
+                        return new ValidationResult("DateReturned must be before "
+                            + history.DateRented.ToString("d")
+                            + " because the car is already booked from then until " + history.DateReturned.ToString("d"));
+                    }
                 }
             }
+
             return ValidationResult.Success;
         }
     }
