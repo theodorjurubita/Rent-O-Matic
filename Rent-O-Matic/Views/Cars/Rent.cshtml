@@ -1,69 +1,68 @@
 ﻿@using System.EnterpriseServices
 @using System.Web.UI.WebControls
+@using System.Web.Mvc.Html
 @model Rent_O_Matic.ViewModels.RentCarViewModel
-
 @{
-    ViewBag.Title = "Rent";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+	ViewBag.Title = "Rent";
+	Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <h2>Rent this car</h2>
 
-
 @using (Html.BeginForm("SaveRent", "Cars"))
 {
-    <div class="form-group">
-        @Html.LabelFor(m => m.Car.Brand)
-        @Html.TextBoxFor(m => m.Car.Brand, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Car.Model)
-        @Html.TextBoxFor(m => m.Car.Model, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Car.Year)
-        @Html.TextBoxFor(m => m.Car.Year, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Car.Price)
-        @Html.TextBoxFor(m => m.Car.Price, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-    <div class="form-group">
-        @Html.TextBoxFor(m => m.Car.StoreId, new { @class = "form-control", type="hidden" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.StoreName)
-        @Html.TextBoxFor(m => m.StoreName, new { @class = "form-control", @readonly = "readonly" })
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DateRented)
-        @Html.TextBoxFor(m => m.DateRented, new { @class = "form-control", autocomplete = "off", autofocus = "autofocus", placeholder="Eg. 11/11/2017", id="dateRented" })
-        @Html.ValidationMessageFor(m => m.DateRented)
-    </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.DateReturned)
-        @Html.TextBoxFor(m => m.DateReturned, new { @class = "form-control", text="", placeholder = "Eg. 12/11/2017" , id = "dateReturned" })
-        @Html.ValidationMessageFor(m => m.DateReturned)
-    </div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Car.Brand)
+		@Html.TextBoxFor(m => m.Car.Brand, new { @class = "form-control", @readonly = "readonly" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Car.Model)
+		@Html.TextBoxFor(m => m.Car.Model, new { @class = "form-control", @readonly = "readonly" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Car.Year)
+		@Html.TextBoxFor(m => m.Car.Year, new { @class = "form-control", @readonly = "readonly" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.Car.Price)
+		@Html.TextBoxFor(m => m.Car.Price, new { @class = "form-control", @readonly = "readonly" })
+	</div>
+	<div class="form-group">
+		@Html.TextBoxFor(m => m.Car.StoreId, new { @class = "form-control", type = "hidden" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.StoreName)
+		@Html.TextBoxFor(m => m.StoreName, new { @class = "form-control", @readonly = "readonly" })
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.DateRented)
+		@Html.DatePickerFor(m => m.DateRented, "id = dateRented" )
+		@Html.ValidationMessageFor(m => m.DateRented)
+	</div>
+	<div class="form-group">
+		@Html.LabelFor(m => m.DateReturned)
+		@Html.DatePickerFor(m => m.DateReturned, "id = dateReturned")
+		@Html.ValidationMessageFor(m => m.DateReturned)
+	</div>
+	<div class="form-group">
+		@Html.TextBoxFor(m => m.Car.Id, new { @class = "form-control", type = "hidden" })
+	</div>
+	
 
-    <div class="form-group">
-        @Html.TextBoxFor(m => m.Car.Id, new { @class = "form-control", type = "hidden" })
-    </div>
-
-    @Html.HiddenFor(m => m.Car.Id)
+	@Html.HiddenFor(m => m.Car.Id)
 
 
-    <button type="submit" class="btn btn-primary">
-        Save
-    </button>
+	<button type="submit" class="btn btn-primary">
+		Save
+	</button>
 
 }
 
 @section Scripts{
-    <script language="javascript" type="text/javascript">
-        $(document).ready(function() {
-            $('#dateRented').val("");
-            $('#dateReturned').val("");
-        });
-    </script>
+	<script language="javascript" type="text/javascript">
+		$(document).ready(function () {
+			$('#dateRented').val("");
+			$('#dateReturned').val("");
+		});
+	</script>
 }

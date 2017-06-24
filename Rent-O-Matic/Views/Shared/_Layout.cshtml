@@ -5,8 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title - Rent-O-Matic</title>
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
-    @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/css", "~/Content/datepicker")
     @Scripts.Render("~/bundles/modernizr")
+    
 
 </head>
 <body>
@@ -20,6 +21,7 @@
     </div>
 
     @Scripts.Render("~/bundles/lib")
+    @Scripts.Render("~/bundles/datepicker")
     @RenderSection("scripts", required: false)
 </body>
 </html>

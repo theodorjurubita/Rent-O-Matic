@@ -71,8 +71,6 @@ namespace Rent_O_Matic.Controllers.API
             var hasCarsAttached = _context.Cars.Where(c => c.StoreId == id).ToList();
 
             if (hasCarsAttached != null)
-                    
-
                 if (store == null)
                     throw new HttpResponseException(HttpStatusCode.NotFound);
 

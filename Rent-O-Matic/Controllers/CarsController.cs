@@ -142,7 +142,8 @@ namespace Rent_O_Matic.Controllers
             customerAttachedToRental.Store = _context.Stores.Single(c => c.Id == carRented.Car.StoreId);
             customerAttachedToRental.Car = carIsRented;
             carRented.Customer = customerAttachedToRental;
-
+            carRented.IncidentGravity = _context.IncidentGravities.Single(g => g.Id == 5);
+            carRented.IncidentGravityId = 5;
             _context.RentalsHistories.Add(carRented);
             _context.SaveChanges();
 
