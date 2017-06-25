@@ -13,8 +13,30 @@ else
     <h2>Edit Car</h2>
 }
 
-@using (Html.BeginForm("Save", "Cars"))
+@using (Html.BeginForm("Save", "Cars", FormMethod.Post, new { enctype = "multipart/form-data" }))
 {
+    <br/>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Car.CarPhoto)
+        <input type="file" id="carPhotoId" name="carPhoto" />
+    </div>
+    <br/>
+    <div class="form-group">
+        <span>
+            @{
+                if (Model.Car?.CarPhoto != null)
+                {
+                    var base64 = Convert.ToBase64String(Model.Car.CarPhoto);
+                    var imgSrc = $"data:image/gif;base64,{base64}";
+                    <img src="@imgSrc" style="max-width: 300px; max-height: 200px;" alt="No photo available"/>
+                }
+                else
+                {
+                    <span>No photo chosen yet!</span>
+                }
+            }
+        </span>
+    </div>
     <div class="form-group">
         @Html.LabelFor(m => m.Car.Brand)
         @Html.TextBoxFor(m => m.Car.Brand, new { @class = "form-control", autofocus = "autofocus" })
@@ -49,9 +71,8 @@ else
     @Html.HiddenFor(m => m.Car.Id)
 
 
-    <button type="submit" class="btn btn-primary">
-        Save
-    </button>
+                <button type="submit" class="btn btn-primary">
+                    Save
+                </button>
 
-}
-
+                }

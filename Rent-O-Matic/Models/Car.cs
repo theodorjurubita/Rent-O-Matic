@@ -30,5 +30,8 @@ namespace Rent_O_Matic.Models
 
         public bool IsRented { get; set; }
 
+        [Display(Name = "Upload car photo")]
+        public byte[] CarPhoto { get; set; }
+
     }
 }

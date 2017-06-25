@@ -4,6 +4,7 @@ using Rent_O_Matic.ViewModels;
 using System;
 using System.Data.Entity;
 using System.Linq;
+using System.Web;
 using System.Web.Mvc;
 
 namespace Rent_O_Matic.Controllers
@@ -38,11 +39,26 @@ namespace Rent_O_Matic.Controllers
 
         [HttpPost]
         [Authorize(Roles = RoleName.CanManageCars)]
-        public ActionResult Save(Car car)
+        public ActionResult Save(Car car, HttpPostedFileBase carPhoto)
         {
             ModelState.Remove("car.Id");
+            if (carPhoto != null)
+            {
+                car.CarPhoto = new byte[carPhoto.ContentLength];
+                carPhoto.InputStream.Read(car.CarPhoto, 0, carPhoto.ContentLength);
+            }
             if (!ModelState.IsValid)
             {
+                var carInDb = _context.Cars.SingleOrDefault(c => c.Id == car.Id);
+                var photoInDb = new byte[byte.MaxValue];
+                if (carInDb != null)
+                {
+                    photoInDb = carInDb.CarPhoto;
+                }
+                if (photoInDb != null)
+                {
+                    car.CarPhoto = photoInDb;
+                }
                 var carViewModel = new CarViewModel()
                 {
                     Car = car,
@@ -61,8 +77,15 @@ namespace Rent_O_Matic.Controllers
                 carInDb.StoreId = car.StoreId;
                 carInDb.Price = car.Price;
                 carInDb.Year = car.Year;
-                var customerInDb = _context.Customers.Single(c => c.CarId == carInDb.Id);
-                customerInDb.StoreId = carInDb.StoreId;
+                if (car.CarPhoto != null)
+                {
+                    carInDb.CarPhoto = car.CarPhoto;
+                }
+                var customersInDb = _context.Customers.ToList().Where(c => c.CarId == car.Id);
+                foreach (var customer in customersInDb)
+                {
+                    customer.StoreId = car.StoreId;
+                }
             }
             _context.SaveChanges();
 

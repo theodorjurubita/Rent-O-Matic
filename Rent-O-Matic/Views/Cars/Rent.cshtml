@@ -11,6 +11,23 @@
 
 @using (Html.BeginForm("SaveRent", "Cars"))
 {
+	<br/>
+	<div class="form-group">
+		<span>
+			@{
+				if (Model.Car?.CarPhoto != null)
+				{
+					var base64 = Convert.ToBase64String(Model.Car.CarPhoto);
+					var imgSrc = $"data:image/gif;base64,{base64}";
+					<img src="@imgSrc" style="max-width: 300px; max-height: 200px; width: 400px" alt="No photo available" />
+				}
+				else
+				{
+					<span>No photo available!</span>
+				}
+			}
+		</span>
+	</div>
 	<div class="form-group">
 		@Html.LabelFor(m => m.Car.Brand)
 		@Html.TextBoxFor(m => m.Car.Brand, new { @class = "form-control", @readonly = "readonly" })
