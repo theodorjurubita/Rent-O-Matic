@@ -17,6 +17,11 @@ namespace Rent_O_Matic.Models
                 var car = _context.Cars.Single(c => c.Id == currentRentalHistory.CarId);
                 currentRentalHistory.Car = car;
             }
+
+            if (currentRentalHistory.DateReturned < currentRentalHistory.DateRented)
+            {
+                return new ValidationResult("DateReturned must be greater or equal than DateRented!");
+            }
             var carForRentHistory = _context.RentalsHistories
                 .Where(h => h.CarId == currentRentalHistory.Car.Id)
                 .Where(h => h.DateRented > DateTime.Today)

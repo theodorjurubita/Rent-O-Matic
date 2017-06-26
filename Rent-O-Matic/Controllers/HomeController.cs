@@ -44,7 +44,7 @@ namespace Rent_O_Matic.Controllers
                     {
                         Brand = car.Brand,
                         Model = car.Model,
-                        PricePerDay = car.Price,
+                        PricePerDay = carEntry.FinalPrice,
                         Store = store.City + ", " + store.Country,
                         DateRented = carEntry.DateRented,
                         DateReturned = carEntry.DateReturned

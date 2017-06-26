@@ -23,5 +23,7 @@ namespace Rent_O_Matic.Models
 
         public IncidentGravity IncidentGravity { get; set; }
         public byte IncidentGravityId { get; set; }
+
+        public float FinalPrice { get; set; }
     }
 }

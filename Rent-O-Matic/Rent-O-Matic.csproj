@@ -330,6 +330,10 @@
     <Compile Include="Migrations\201706251314105_AddCarPhotoToCarTable.Designer.cs">
       <DependentUpon>201706251314105_AddCarPhotoToCarTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201706261915145_AddFinalPrinceToRentalHistory.cs" />
+    <Compile Include="Migrations\201706261915145_AddFinalPrinceToRentalHistory.Designer.cs">
+      <DependentUpon>201706261915145_AddFinalPrinceToRentalHistory.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\DateRentedOutsideOtherRentalsPeriod.cs" />
     <Compile Include="Models\DateReturnedBeforeOtherRentals.cs" />
@@ -876,6 +880,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201706251314105_AddCarPhotoToCarTable.resx">
       <DependentUpon>201706251314105_AddCarPhotoToCarTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201706261915145_AddFinalPrinceToRentalHistory.resx">
+      <DependentUpon>201706261915145_AddFinalPrinceToRentalHistory.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

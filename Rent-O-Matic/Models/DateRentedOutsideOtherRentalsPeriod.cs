@@ -13,6 +13,11 @@ namespace Rent_O_Matic.Models
 
             var _context = new ApplicationDbContext();
 
+            if (currentRentalHistory.DateRented < DateTime.Today)
+            {
+                return new ValidationResult("DateRented must be greater or equal than today!");
+            }
+
             if (currentRentalHistory.Car == null)
             {
                 var car = _context.Cars.Single(c => c.Id == currentRentalHistory.CarId);

@@ -122,16 +122,25 @@ namespace Rent_O_Matic.Controllers
         public ActionResult Rent(int id)
         {
             var car = _context.Cars.SingleOrDefault(c => c.Id == id);
+
             if (car == null)
             {
                 return HttpNotFound();
             }
+            var userId = User.Identity.GetUserId();
             var carStore = _context.Stores.Single(c => c.Id == car.StoreId);
-
+            var customerInDb = _context.Customers.Single(c => c.UserId.Equals(userId));
+            var historyForCustomer = _context.RentalsHistories.Where(c => c.CustomerId == customerInDb.Id).Include(c => c.IncidentGravity);
+            var increasedPrice = car.Price;
+            foreach (var transaction in historyForCustomer)
+            {
+                increasedPrice = increasedPrice * transaction.IncidentGravity.CoeficientToIncreasePrice;
+            }
             var carViewModel = new RentCarViewModel()
             {
                 Car = car,
-                StoreName = carStore.City + ", " + carStore.Country
+                StoreName = carStore.City + ", " + carStore.Country,
+                FinalPrice = increasedPrice
             };
 
             return View("Rent", carViewModel);
@@ -143,11 +152,12 @@ namespace Rent_O_Matic.Controllers
             if (!ModelState.IsValid)
             {
                 var carStore = _context.Stores.Single(c => c.Id == carRented.Car.StoreId);
+                var carInDb = _context.Cars.Single(c => c.Id == carRented.Car.Id);
                 var rentCarViewModel = new RentCarViewModel()
                 {
-                    Car = carRented.Car,
-                    //StoreName = store.City + ", " + store.Country
-                    StoreName = carStore.City + ", " + carStore.Country
+                    Car = carInDb,
+                    StoreName = carStore.City + ", " + carStore.Country,
+                    FinalPrice = carRented.FinalPrice
                 };
                 return View("Rent", rentCarViewModel);
             }

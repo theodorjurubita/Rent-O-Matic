@@ -174,7 +174,7 @@ namespace Rent_O_Matic.Controllers
                         Nationality = user.Nationality,
                         YearsOld = user.YearsOld,
                         DrivingLiscense = user.DrivingLiscense,
-                        UserId = User.Identity.GetUserId()
+                        UserId = user.Id
                     };
                     _context.Customers.Add(customerForUser);
                     _context.SaveChanges();
