@@ -18,6 +18,7 @@ namespace Rent_O_Matic.ViewModels
         [Display(Name = "Store Location")]
         public string StoreName { get; set; }
 
+        [Display(Name = "Final price per day($)")]
         public float FinalPrice { get; set; }
     }
 }

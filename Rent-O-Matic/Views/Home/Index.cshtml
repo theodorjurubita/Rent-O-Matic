@@ -29,6 +29,7 @@
                     <th>DateRented</th>
                     <th>Date to return</th>
                     <th>Store where you rented</th>
+                    <th>Total price</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -37,10 +38,11 @@
                     <tr>
                         <td>@carRented.Brand</td>
                         <td>@carRented.Model</td>
-                        <td>@carRented.PricePerDay $</td>
+                        <td>@Math.Round(carRented.PricePerDay,2) $</td>
                         <td>@carRented.DateRented.ToString("d")</td>
                         <td>@carRented.DateReturned.ToString("d")</td>
                         <td>@carRented.Store</td>
+                        <td>@Math.Round(carRented.PricePerDay * ((carRented.DateReturned - carRented.DateRented).Days+1),2)$</td>
                     </tr>
                 }
                 </tbody>

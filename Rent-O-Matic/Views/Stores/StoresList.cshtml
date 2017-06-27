@@ -60,7 +60,6 @@
                     } else {
                         bootbox.confirm("Are you sure you want to delete this store?",
                         function (result) {
-
                             if (result) {
                                 $.ajax({
                                     url: "/api/stores/" + button.attr("data-store-id"),
@@ -68,19 +67,12 @@
                                     success: function () {
                                         storesTable.rows(button.parents("tr")).remove().draw();
                                     }
-
                                 });
-
                             }
-
-
-                        });
+                         });
                     }
-
-
                 });
         });
     </script>
-
 }
 

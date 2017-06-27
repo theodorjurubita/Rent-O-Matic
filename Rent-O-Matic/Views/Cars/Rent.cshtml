@@ -1,4 +1,5 @@
 ﻿@using System.EnterpriseServices
+@using System.Globalization
 @using System.Web.UI.WebControls
 @using System.Web.Mvc.Html
 @model Rent_O_Matic.ViewModels.RentCarViewModel
@@ -41,7 +42,7 @@
     </div>
     <div class="form-group">
         @Html.LabelFor(m => m.FinalPrice)
-        @Html.TextBoxFor(m => m.FinalPrice, new { @class = "form-control", @readonly = "readonly" })
+        @Html.TextBoxFor(m => m.FinalPrice, new { @class = "form-control", @readonly = "readonly"})
         @{
             if (Model.Car?.Price != Model.FinalPrice)
             {
