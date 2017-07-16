@@ -46,7 +46,30 @@
         @{
             if (Model.Car?.Price != Model.FinalPrice)
             {
-                <h4 style="color: red"> Price after analyzing history!</h4>
+                if (Model.Car?.Price < Model.FinalPrice)
+                {
+                    <h4 style="color: red">
+                        Price grew up with @{
+                            var f = (Model.FinalPrice / Model.Car?.Price - 1) * 100;
+                        }
+                        @if (f != null)
+                        {
+                            @Math.Round((double)f, 2)
+                        }% due to past rentals incidents !
+                    </h4>
+                }
+                else
+                {
+                    <h4 style="color: green"> Price went down with
+                        @{
+                            var f = (Model.FinalPrice / Model.Car?.Price - 1)* 100;
+                        }
+                        @if (f != null)
+                        {
+                            @Math.Round((double)f,2)
+                        }% due to past rentals !</h4>
+                }
+
             }
         }
     </div>

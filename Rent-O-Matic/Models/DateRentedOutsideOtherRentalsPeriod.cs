@@ -13,7 +13,9 @@ namespace Rent_O_Matic.Models
 
             var _context = new ApplicationDbContext();
 
-            if (currentRentalHistory.DateRented < DateTime.Today)
+            var laterEdit = _context.RentalsHistories.SingleOrDefault(c => c.Id == currentRentalHistory.Id);
+
+            if (currentRentalHistory.DateRented < DateTime.Today && laterEdit == null)
             {
                 return new ValidationResult("DateRented must be greater or equal than today!");
             }

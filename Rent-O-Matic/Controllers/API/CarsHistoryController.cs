@@ -52,10 +52,17 @@ namespace Rent_O_Matic.Controllers.API
         [HttpPut]
         public void UpdateRentalHistory(int rentalHistoryId, byte incidentGravityId)
         {
-            var rentFromHistory = _context.RentalsHistories.SingleOrDefault(h => h.Id == rentalHistoryId);
-            if (rentFromHistory == null) return;
-            rentFromHistory.IncidentGravityId = incidentGravityId;
-            _context.SaveChanges();
+            try
+            {
+                var rentFromHistory = _context.RentalsHistories.SingleOrDefault(h => h.Id == rentalHistoryId);
+                if (rentFromHistory == null) return;
+                rentFromHistory.IncidentGravityId = incidentGravityId;
+                _context.SaveChanges();
+            }
+            catch
+            {
+                // ignored
+            }
         }
     }
 }

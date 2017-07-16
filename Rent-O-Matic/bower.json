@@ -1,0 +1,25 @@
+{
+  "name": "Rent-O-Matic",
+  "version": "1.0.0",
+  "description": "Car dealer application",
+  "main": "index.html",
+  "authors": [
+    "Theodor Jurubita"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "polymer": "Polymer/polymer#~2.0.1",
+    "paper-elements": "PolymerElements/paper-elements#~1.0.7",
+    "vaadin-charts": "~4.0.0"
+  },
+  "resolutions": {
+    "polymer": "1.9 - 2"
+  }
+}

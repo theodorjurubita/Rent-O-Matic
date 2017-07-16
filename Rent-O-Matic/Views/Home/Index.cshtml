@@ -1,50 +1,108 @@
-﻿@model IEnumerable<Rent_O_Matic.ViewModels.RentedCarsViewModel>
+﻿@model Rent_O_Matic.ViewModels.HomeCarStatisticsViewModel
 @using Rent_O_Matic.Models
 @{
     ViewBag.Title = "Home Page";
 }
 
+
+<script src="~/bower_components/webcomponentsjs/webcomponents-lite.js"></script>
+<link rel="import" href="~/bower_components/polymer/polymer.html">
+
+<link rel="import" href="~/Content/ChartComponent.html">
+<link rel="import" href="~/bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="~/bower_components/vaadin-charts/vaadin-column-chart.html">
+
+
 @if (!User.IsInRole(RoleName.CanManageCars))
 {
-    if (Model == null)
+    if (Model.CarBrandStatistics.Any())
     {
         <h1>Welcome to Rent-O-Matic</h1>
+
+        <br />
+
+            <vaadin-column-chart class="chart">
+                <title>Rental brand prefferences</title>
+                <x-axis type="category"></x-axis>
+                <y-axis>
+                    <title>Total percent rentals</title>
+                </y-axis>
+                <legend enabled="false"></legend>
+                <plot-options>
+                    <series>
+                        <data-labels enabled="true" format="{point.y:.1f}%">
+                        </data-labels>
+                    </series>
+                </plot-options>
+                <data-series>
+                    <name>Vendors</name>
+                    <color-by-point>true</color-by-point>
+                    <data>
+                        @foreach (var carStatistics in Model.CarBrandStatistics)
+                        {
+                            <point>
+                                <name>@carStatistics.Name</name>
+                                <y>@carStatistics.Percentace</y>
+                                <drilldown>@carStatistics.Name</drilldown>
+                            </point>
+                        }
+                    </data>
+                </data-series>
+
+                @foreach (var carBrandStatistics in Model.CarBrandStatistics)
+                {
+                    var brandModels = "";
+                    <data-series id="@carBrandStatistics.Name" drilldown="true">
+                        <name>@carBrandStatistics.Name</name>
+                        <data>
+                            @foreach (var model in carBrandStatistics.CarModelStatistics)
+                            {
+                                brandModels += model.ToString();
+                            }
+                            @brandModels
+                        </data>
+                    </data-series>
+                }
+
+                
+            </vaadin-column-chart>
+
     }
     else
     {
-        if (!Model.Any())
+        if (!Model.RentedCarsViewModel.Any())
         {
             <p>You currently don't have any cars rented!</p>
         }
         else
         {
             <h2>Your currently rented cars: </h2>
-            <br/>
+            <br />
             <table class="table table-striped">
                 <thead>
-                <tr>
-                    <th>Brand</th>
-                    <th>Model</th>
-                    <th>Price per day</th>
-                    <th>DateRented</th>
-                    <th>Date to return</th>
-                    <th>Store where you rented</th>
-                    <th>Total price</th>
-                </tr>
+                    <tr>
+                        <th>Brand</th>
+                        <th>Model</th>
+                        <th>Price per day</th>
+                        <th>DateRented</th>
+                        <th>Date to return</th>
+                        <th>Store where you rented</th>
+                        <th>Total price</th>
+                    </tr>
                 </thead>
                 <tbody>
-                @foreach (var carRented in Model)
-                {
-                    <tr>
-                        <td>@carRented.Brand</td>
-                        <td>@carRented.Model</td>
-                        <td>@Math.Round(carRented.PricePerDay,2) $</td>
-                        <td>@carRented.DateRented.ToString("d")</td>
-                        <td>@carRented.DateReturned.ToString("d")</td>
-                        <td>@carRented.Store</td>
-                        <td>@Math.Round(carRented.PricePerDay * ((carRented.DateReturned - carRented.DateRented).Days+1),2)$</td>
-                    </tr>
-                }
+                    @foreach (var carRented in Model.RentedCarsViewModel)
+                        {
+                        <tr>
+                            <td>@carRented.Brand</td>
+                            <td>@carRented.Model</td>
+                            <td>@Math.Round(carRented.PricePerDay, 2) $</td>
+                            <td>@carRented.DateRented.ToString("d")</td>
+                            <td>@carRented.DateReturned.ToString("d")</td>
+                            <td>@carRented.Store</td>
+                            <td>@Math.Round(carRented.PricePerDay * ((carRented.DateReturned - carRented.DateRented).Days + 1), 2)$</td>
+                        </tr>
+                    }
                 </tbody>
             </table>
         }
@@ -53,102 +111,103 @@
 else
 {
     <h1> Overview of rental transactions </h1>
-    <br/>
-    <br/>
+    <br />
+    <br />
 
-    <table id="history" class="table table-bordered table-hover">
-        <thead>
-        <tr>
-            <th>Customer Name</th>
-            <th>Brand</th>
-            <th>Model</th>
-            <th>DateRented</th>
-            <th>DateReturned</th>
-            <th>IncidentGravity</th>
-            <th>UpdateIncidentGravity</th>
-        </tr>
-        </thead>
-    </table>
+                <table id="history" class="table table-bordered table-hover">
+                    <thead>
+                        <tr>
+                            <th>Customer Name</th>
+                            <th>Brand</th>
+                            <th>Model</th>
+                            <th>DateRented</th>
+                            <th>DateReturned</th>
+                            <th>IncidentGravity</th>
+                            <th>UpdateIncidentGravity</th>
+                        </tr>
+                    </thead>
+                </table>
 }
-    @section scripts
-    {
-        <script>
-            $.formattedDate = function (dateToFormat) {
-                var dateObject = new Date(dateToFormat);
-                var day = dateObject.getDate();
-                var month = dateObject.getMonth() + 1;
-                var year = dateObject.getFullYear();
-                day = day < 10 ? "0" + day : day;
-                month = month < 10 ? "0" + month : month;
-                var formattedDate = day + "/" + month + "/" + year;
-                return formattedDate;
-            };
-            $(document).ready(function() {
-                var historyTable = $("#history").DataTable({
-                    ajax: {
-                        url: "/api/carsHistory",
-                        dataSrc: ""
-                    },
-                    columns: [
-                        {
-                            data: "customerName",
-                            render: function(data) {
-                                return "<td>" + data + "</a>";
-                            }
-                        },
-                        {
-                            data: "carBrand",
-                            render: function(data) {
-                                return "<td>" + data + "</td>";
-                            }
-                        },
-                        {
-                            data: "carModel",
-                            render: function(data) {
-                                return "<td>" + data + "</td>";
-                            }
-                        },
-                        {
-                            data: "dateRented",
-                            render: function(data) {
-                                return "<td>" + $.formattedDate(data) + "</td>";
-                            }
-                        },
-                        {
-                            data: "dateReturned",
-                            render: function(data) {
-                                return "<td>" + $.formattedDate(data) + "</td>";
-                            }
-                        },
-                        {
-                            data: "",
-                            render: function(data,type,rentalHistory) {
-                                var listItems = "";
-                                for (var i = 0; i < rentalHistory.incidentGravity.length; i++) {
-                                    listItems += "<option value=" + rentalHistory.incidentGravity[i].id + ">" + rentalHistory.incidentGravity[i].gravity + "</option>";
-                                }
-                                var id = rentalHistory.incidentGravityId;
-                                return "<select type='submit'  class='form-control' id='ddlGravity "+rentalHistory.rentalHistoryId+"'>" +
-                                    "<option value=" + id + ">" + rentalHistory.incidentGravity[id - 1].gravity + "</option>" +
-                                    listItems +
-                                    " </select>";
-                            }
-                        },
-                        {
-                            data: "",
-                            render: function(data,type,rentalHistory) {
-                                return "<button class='btn-link js-update' data-history-id='" + rentalHistory.rentalHistoryId + "'>Update</button>";
-                            }
-                        }
-                    ]
-                });
+@section scripts
+             {
 
-                $("#history").on("click",
+    <script>
+        $.formattedDate = function (dateToFormat) {
+            var dateObject = new Date(dateToFormat);
+            var day = dateObject.getDate();
+            var month = dateObject.getMonth() + 1;
+            var year = dateObject.getFullYear();
+            day = day < 10 ? "0" + day : day;
+            month = month < 10 ? "0" + month : month;
+            var formattedDate = day + "/" + month + "/" + year;
+            return formattedDate;
+        };
+        $(document).ready(function () {
+            var historyTable = $("#history").DataTable({
+                ajax: {
+                    url: "/api/carsHistory",
+                    dataSrc: ""
+                },
+                columns: [
+                    {
+                        data: "customerName",
+                        render: function (data) {
+                            return "<td>" + data + "</a>";
+                        }
+                    },
+                    {
+                        data: "carBrand",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "carModel",
+                        render: function (data) {
+                            return "<td>" + data + "</td>";
+                        }
+                    },
+                    {
+                        data: "dateRented",
+                        render: function (data) {
+                            return "<td>" + $.formattedDate(data) + "</td>";
+                        }
+                    },
+                    {
+                        data: "dateReturned",
+                        render: function (data) {
+                            return "<td>" + $.formattedDate(data) + "</td>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, rentalHistory) {
+                            var listItems = "";
+                            for (var i = 0; i < rentalHistory.incidentGravity.length; i++) {
+                                listItems += "<option value=" + rentalHistory.incidentGravity[i].id + ">" + rentalHistory.incidentGravity[i].gravity + "</option>";
+                            }
+                            var id = rentalHistory.incidentGravityId;
+                            return "<select type='submit'  class='form-control' id='ddlGravity " + rentalHistory.rentalHistoryId + "'>" +
+                                "<option value=" + id + ">" + rentalHistory.incidentGravity[id - 1].gravity + "</option>" +
+                                listItems +
+                                " </select>";
+                        }
+                    },
+                    {
+                        data: "",
+                        render: function (data, type, rentalHistory) {
+                            return "<button class='btn-link js-update' data-history-id='" + rentalHistory.rentalHistoryId + "'>Update</button>";
+                        }
+                    }
+                ]
+            });
+
+            $("#history").on("click",
                 ".js-update",
                 function () {
                     var button = $(this);
                     var id = button.attr("data-history-id");
-                    var indexId = document.getElementById("ddlGravity "+id).selectedIndex;
+                    var indexId = document.getElementById("ddlGravity " + id).selectedIndex;
                     bootbox.confirm("Are you sure you want to update this rental?",
                         function (result) {
                             if (result) {
@@ -168,6 +227,6 @@ else
                         });
 
                 });
-            });
-        </script>
-    }
+        });
+    </script>
+}
