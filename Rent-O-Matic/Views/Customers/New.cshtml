@@ -1,16 +1,16 @@
-﻿ @model Rent_O_Matic.ViewModels.CustomerViewModel
+﻿ @model Rent_O_Matic.ViewModels.CustomerForHistoryViewModel
     @{
         ViewBag.Title = "New";
         Layout = "~/Views/Shared/_Layout.cshtml";
     }
 
-        @if (Model.Customer == null)
+        @if (Model == null)
         {
             <h2>New Customer</h2>
         }
         else
         {
-            if (Model.Customer.Name == null)
+            if (Model.Name == null)
             {
                 <h2>New Customer</h2>
             }
@@ -23,50 +23,58 @@
         @using (Html.BeginForm("Save", "Customers", new { id = "CustomerForm" }))
         {
             <div class="form-group">
-                @Html.LabelFor(m => m.Customer.Name)
-                @Html.TextBoxFor(m => m.Customer.Name, new { @class = "form-control", id = "customerName", autofocus = "autofocus" })
-                @Html.ValidationMessageFor(m => m.Customer.Name)
+                @Html.LabelFor(m => m.Name)
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control", id = "customerName", autofocus = "autofocus" })
+                @Html.ValidationMessageFor(m => m.Name)
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Customer.Nationality)
-                @Html.TextBoxFor(m => m.Customer.Nationality, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Customer.Nationality)
+                @Html.LabelFor(m => m.Nationality)
+                @Html.TextBoxFor(m => m.Nationality, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Nationality)
             </div>
             <div>
-                @Html.LabelFor(m => m.Customer.YearsOld)
-                @Html.TextBoxFor(m => m.Customer.YearsOld, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Customer.YearsOld)
+                @Html.LabelFor(m => m.YearsOld)
+                @Html.TextBoxFor(m => m.YearsOld, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.YearsOld)
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Customer.DrivingLiscense)
-                @Html.TextBoxFor(m => m.Customer.DrivingLiscense, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Customer.DrivingLiscense)
+                @Html.LabelFor(m => m.DrivingLiscense)
+                @Html.TextBoxFor(m => m.DrivingLiscense, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.DrivingLiscense)
             </div>
             <div class="form-group">
-                @Html.LabelFor(m => m.Customer.StoreId)
-                @Html.DropDownListFor(m => m.Customer.StoreId, new SelectList(Model.Stores, "Id", "City"), "Select Store", new { @class = "form-control", id = "storeddl", @onchange = "javascript:GetCars(this.value);" })
-                @Html.ValidationMessageFor(m => m.Customer.StoreId)
+                @Html.LabelFor(m => m.StoreId)
+                @Html.DropDownListFor(m => m.StoreId, new SelectList(Model.Stores, "Id", "City"), "Select Store", new { @class = "form-control", id = "storeddl", @onchange = "javascript:GetCars(this.value);" })
+                @Html.ValidationMessageFor(m => m.StoreId)
             </div>
-
             <div class="form-group">
-                @Html.LabelFor(m => m.Customer.CarId)
-                <select type="submit" id="ddlCars" name="Customer.CarId" class="form-control">
+                @Html.LabelFor(m => m.CarId)
+                <select type="submit" id="ddlCars" name="CarId" class="form-control">
                     <option>Select a store first!</option>
                 </select>
-                @Html.ValidationMessageFor(m => m.Customer.CarId)
+                @Html.ValidationMessageFor(m => m.CarId)
             </div>
-            
-            @Html.HiddenFor(m => m.Customer.Id)
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateRented)
+                @Html.DatePickerFor(m => m.DateRented, "id = dateRented")
+                @Html.ValidationMessageFor(m => m.DateRented)
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(m => m.DateReturned)
+                @Html.DatePickerFor(m => m.DateReturned, "id = dateReturned")
+                @Html.ValidationMessageFor(m => m.DateReturned)
+            </div>
 
-            if (@Model.Customer != null)
+            @Html.HiddenFor(m => m.Id)
+
+            if (@Model != null)
             {
-                if (@Model.Customer.CarId != null)
+                if (@Model.CarId != null)
                 {
-                    <div data-car-id="@Model.Customer.CarId" hidden="true" id="helperDivCar"></div>
+                    <div data-car-id="@Model.CarId" hidden="true" id="helperDivCar"></div>
                 }
 
             }
-
 
             <button type="submit" class="btn btn-primary " id="submitBTN">
                 Save

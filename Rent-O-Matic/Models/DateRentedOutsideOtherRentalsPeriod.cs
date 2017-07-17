@@ -9,15 +9,42 @@ namespace Rent_O_Matic.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var currentRentalHistory = (RentalsHistory)validationContext.ObjectInstance;
+            RentalsHistory currentRentalHistory;
+            if (validationContext.ObjectType.Name.Equals("CustomerForHistoryViewModel"))
+            {
+                var customerForRental = (CustomerForHistoryViewModel)validationContext.ObjectInstance;
+                currentRentalHistory = new RentalsHistory()
+                {
+                    Id = customerForRental.Id,
+                    CarId = customerForRental.CarId ?? default(int),
+                    CustomerId = customerForRental.Id,
+                    DateRented = customerForRental.DateRented,
+                    DateReturned = customerForRental.DateReturned,
+                    IncidentGravityId = 5
+
+                };
+            }
+            else
+            {
+                currentRentalHistory = (RentalsHistory)validationContext.ObjectInstance;
+            }
+
 
             var _context = new ApplicationDbContext();
 
-            var laterEdit = _context.RentalsHistories.SingleOrDefault(c => c.Id == currentRentalHistory.Id);
+            var laterEdit = _context.RentalsHistories.Include("Car").SingleOrDefault(c => c.Id == currentRentalHistory.Id);
 
             if (currentRentalHistory.DateRented < DateTime.Today && laterEdit == null)
             {
                 return new ValidationResult("DateRented must be greater or equal than today!");
+            }
+
+            if (currentRentalHistory.CarId == 0)
+            {
+                if (currentRentalHistory.Car == null)
+                {
+                    return new ValidationResult("No car selected yet!");
+                }
             }
 
             if (currentRentalHistory.Car == null)

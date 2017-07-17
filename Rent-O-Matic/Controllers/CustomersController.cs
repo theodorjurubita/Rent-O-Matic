@@ -25,7 +25,7 @@ namespace Rent_O_Matic.Controllers
         public ActionResult New()
         {
             var stores = _context.Stores.ToList();
-            CustomerViewModel customer = new CustomerViewModel()
+            var customer = new CustomerForHistoryViewModel()
             {
                 Stores = stores
             };
@@ -35,16 +35,24 @@ namespace Rent_O_Matic.Controllers
         }
 
         [HttpPost]
-        public ActionResult Save(Customer customer)
+        public ActionResult Save(CustomerForHistoryViewModel customer)
         {
 
-            ModelState.Remove("customer.Id");
+            ModelState.Remove("Id");
             if (!ModelState.IsValid)
             {
-                var customerViewModel = new CustomerViewModel()
+                var customerViewModel = new CustomerForHistoryViewModel()
                 {
                     Stores = _context.Stores.ToList(),
-                    Customer = customer
+                    Name = customer.Name,
+                    CarId = customer.CarId,
+                    DateRented = customer.DateRented,
+                    DateReturned = customer.DateReturned,
+                    DrivingLiscense = customer.DrivingLiscense,
+                    Nationality = customer.Nationality,
+                    StoreId = customer.StoreId,
+                    YearsOld = customer.YearsOld
+
                 };
                 return View("New", customerViewModel);
 
@@ -52,9 +60,27 @@ namespace Rent_O_Matic.Controllers
 
             if (customer.Id == 0)
             {
-                _context.Customers.Add(customer);
-            }
+                var cust = new Customer()
+                {
+                    Name = customer.Name,
+                    CarId = customer.CarId,
+                    DrivingLiscense = customer.DrivingLiscense,
+                    Nationality = customer.Nationality,
+                    StoreId = customer.StoreId,
+                    YearsOld = customer.YearsOld
+                };
+                var transaction = new RentalsHistory()
+                {
+                    DateRented = customer.DateRented,
+                    DateReturned = customer.DateReturned,
+                    CarId = customer.CarId ?? default(int),
+                    IncidentGravityId = 5,
+                    FinalPrice = _context.Cars.Single(c => c.Id == customer.CarId).Price
 
+                };
+                _context.RentalsHistories.Add(transaction);
+                _context.Customers.Add(cust);
+            }
             else
             {
                 var customerInDb = _context.Customers.Single(c => c.Id == customer.Id);
@@ -68,7 +94,19 @@ namespace Rent_O_Matic.Controllers
 
                 customerInDb.CarId = customer.CarId;
                 customerInDb.StoreId = customer.StoreId;
+                var carRentedNow = _context.Cars.Single(c => c.Id == customer.CarId);
 
+                var rentalHist = new RentalsHistory()
+                {
+                    DateRented = customer.DateRented,
+                    DateReturned = customer.DateReturned,
+                    CarId = customer.CarId ?? default(int),
+                    IncidentGravityId = 5,
+                    FinalPrice = CarsController.GetFinalPrice(customer.Id, carRentedNow),
+                    CustomerId = customerInDb.Id
+
+                };
+                _context.RentalsHistories.Add(rentalHist);
             }
             var carRented = _context.Cars.Single(c => c.Id == customer.CarId);
             carRented.IsRented = true;
@@ -100,9 +138,14 @@ namespace Rent_O_Matic.Controllers
             if (customer == null)
                 return HttpNotFound();
 
-            CustomerViewModel customerViewModel = new CustomerViewModel()
+            var customerViewModel = new CustomerForHistoryViewModel()
             {
-                Customer = customer,
+                Name = customer.Name,
+                CarId = customer.CarId,
+                DrivingLiscense = customer.DrivingLiscense,
+                Nationality = customer.Nationality,
+                StoreId = customer.StoreId,
+                YearsOld = customer.YearsOld,
                 Stores = _context.Stores.ToList(),
                 Cars = _context.Cars.Where(c => c.StoreId == customer.StoreId)
 

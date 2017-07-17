@@ -13,7 +13,7 @@ namespace Rent_O_Matic.Controllers
     public class CarsController : Controller
     {
 
-        private ApplicationDbContext _context;
+        private static ApplicationDbContext _context;
 
         public CarsController()
         {
@@ -130,12 +130,8 @@ namespace Rent_O_Matic.Controllers
             var userId = User.Identity.GetUserId();
             var carStore = _context.Stores.Single(c => c.Id == car.StoreId);
             var customerInDb = _context.Customers.Single(c => c.UserId.Equals(userId));
-            var historyForCustomer = _context.RentalsHistories.Where(c => c.CustomerId == customerInDb.Id).Include(c => c.IncidentGravity);
-            var increasedPrice = car.Price;
-            foreach (var transaction in historyForCustomer)
-            {
-                increasedPrice = increasedPrice * transaction.IncidentGravity.CoeficientToIncreasePrice;
-            }
+            var increasedPrice = GetFinalPrice(customerInDb.Id, car);
+
             var carViewModel = new RentCarViewModel()
             {
                 Car = car,
@@ -183,6 +179,16 @@ namespace Rent_O_Matic.Controllers
             return RedirectToAction("Index", "Cars");
         }
 
-
+        public static float GetFinalPrice(int customerId, Car car)
+        {
+            var _localContext = new ApplicationDbContext();
+            var historyForCustomer = _localContext.RentalsHistories.Where(c => c.CustomerId == customerId).Include(c => c.IncidentGravity);
+            var increasedPrice = car.Price;
+            foreach (var transaction in historyForCustomer)
+            {
+                increasedPrice = increasedPrice * transaction.IncidentGravity.CoeficientToIncreasePrice;
+            }
+            return increasedPrice;
+        }
     }
 }

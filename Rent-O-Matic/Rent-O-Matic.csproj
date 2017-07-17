@@ -343,6 +343,7 @@
     <Compile Include="Models\IncidentGravity.cs" />
     <Compile Include="Models\RentalsHistory.cs" />
     <Compile Include="Models\RoleName.cs" />
+    <Compile Include="ViewModels\CustomerForHistoryViewModel.cs" />
     <Compile Include="ViewModels\ForgotPasswordViewModel.cs" />
     <Compile Include="Models\Car.cs" />
     <Compile Include="Models\Customer.cs" />

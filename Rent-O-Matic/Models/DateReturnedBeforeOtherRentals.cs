@@ -9,9 +9,33 @@ namespace Rent_O_Matic.Models
     {
         protected override ValidationResult IsValid(object value, ValidationContext validationContext)
         {
-            var currentRentalHistory = (RentalsHistory)validationContext.ObjectInstance;
+            RentalsHistory currentRentalHistory;
+            if (validationContext.ObjectType.Name.Equals("CustomerForHistoryViewModel"))
+            {
+                var customerForRental = (CustomerForHistoryViewModel)validationContext.ObjectInstance;
+                currentRentalHistory = new RentalsHistory()
+                {
+                    Id = customerForRental.Id,
+                    CarId = customerForRental.CarId ?? default(int),
+                    CustomerId = customerForRental.Id,
+                    DateRented = customerForRental.DateRented,
+                    DateReturned = customerForRental.DateReturned,
+                    IncidentGravityId = 5
 
+                };
+            }
+            else
+            {
+                currentRentalHistory = (RentalsHistory)validationContext.ObjectInstance;
+            }
             var _context = new ApplicationDbContext();
+            if (currentRentalHistory.CarId == 0)
+            {
+                if (currentRentalHistory.Car == null)
+                {
+                    return new ValidationResult("No car selected yet!");
+                }
+            }
             if (currentRentalHistory.Car == null)
             {
                 var car = _context.Cars.Single(c => c.Id == currentRentalHistory.CarId);
