@@ -140,6 +140,7 @@ namespace Rent_O_Matic.Controllers
 
             var customerViewModel = new CustomerForHistoryViewModel()
             {
+                Id = id,
                 Name = customer.Name,
                 CarId = customer.CarId,
                 DrivingLiscense = customer.DrivingLiscense,

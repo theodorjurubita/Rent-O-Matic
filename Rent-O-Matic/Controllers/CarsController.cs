@@ -68,7 +68,11 @@ namespace Rent_O_Matic.Controllers
             }
 
             if (car.Id == 0)
+            {
+                var storeForCar = _context.Stores.Single(s => s.Id == car.StoreId);
+                storeForCar.HasCars = true;
                 _context.Cars.Add(car);
+            }
             else
             {
                 var carInDb = _context.Cars.Single(c => c.Id == car.Id);
@@ -86,6 +90,8 @@ namespace Rent_O_Matic.Controllers
                 {
                     customer.StoreId = car.StoreId;
                 }
+                var storeForCar = _context.Stores.Single(s => s.Id == car.Store.Id);
+                storeForCar.HasCars = true;
             }
             _context.SaveChanges();
 
